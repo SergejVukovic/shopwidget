@@ -1,0 +1,50 @@
+.ProductCardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    padding: 16px;
+}
+
+.ProductCardFooter button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border: .1rem solid #ebebeb;
+    width: 90%;
+    padding: 6px;
+}
+
+.ProductCardFooter button:focus {
+    outline: none;
+}
+
+.ProductCardFooter button svg{
+    margin-right: 6px;
+}
+
+.ProductCardFooter h3 {
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 1.25;
+    letter-spacing: -.01em;
+    color: #333333;
+    margin-bottom: .2rem;
+    margin-top: 0;
+}
+
+.ProductCardFooter .productPrice {
+    display: flex;
+    flex-direction: column;
+    font-weight: 400;
+    font-size: 1.3rem;
+    line-height: 1.25;
+    margin-bottom: 0.5rem;
+}
+
+.ProductCardFooter .sale_price {
+    text-decoration: line-through;
+    text-decoration-color: grey;
+    color: grey;
+}

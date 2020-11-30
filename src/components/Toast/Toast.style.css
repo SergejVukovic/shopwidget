@@ -1,0 +1,19 @@
+.Toast {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    width: 100%;
+    font-weight: 500;
+    color: #ffff;
+    transition: transform .6s ease-in-out;
+    animation: toast-in-right .7s;
+}
+
+.success-toast {
+    background-color: #4caf50;
+}
+.error-toast {
+    background-color: #f44336;
+}

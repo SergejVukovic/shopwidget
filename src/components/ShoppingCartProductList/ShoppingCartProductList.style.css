@@ -1,0 +1,40 @@
+.ShoppingCartProductList {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ShoppingCartProductList .item {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 16px;
+    border: 1px solid #ebebeb;
+    border-bottom: none;
+    width: 300px;
+}
+
+.ShoppingCartProductList .total {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 16px;
+    border: 1px solid #ebebeb;
+    width: 300px;
+}
+
+.ShoppingCartProductList button {
+    background-color: #ffffff;
+    border: 0.1rem solid #ebebeb;
+    width: 40px;
+    height: 30px;
+}
+
+.ShoppingCartProductList button:first-child {
+    border-right: none;
+}
+
+.ShoppingCartProductList button:focus {
+    outline: none;
+}

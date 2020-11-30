@@ -1,0 +1,24 @@
+.BillingInformationForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.BillingInformationForm .item {
+    width: 300px;
+    padding: 16px;
+    border: 0.1rem solid #ebebeb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: none;
+}
+
+.BillingInformationForm .item:last-child {
+    border-bottom: 0.1rem solid #ebebeb;
+}
+
+.BillingInformationForm .item label {
+    margin-right: 16px;
+}

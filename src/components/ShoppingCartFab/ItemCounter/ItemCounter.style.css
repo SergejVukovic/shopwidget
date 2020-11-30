@@ -1,0 +1,9 @@
+.ItemCounter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: red;
+    padding: 3px;
+    color: white;
+    border-bottom-right-radius: 5px;
+}
