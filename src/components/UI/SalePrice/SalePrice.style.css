@@ -1,0 +1,6 @@
+.SalePrice {
+    font-size: 1.5em;
+    text-decoration: line-through;
+    text-decoration-color: grey;
+    color: grey;
+}

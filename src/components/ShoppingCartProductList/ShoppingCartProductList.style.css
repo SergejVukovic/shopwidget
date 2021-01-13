@@ -1,11 +1,12 @@
 .ShoppingCartProductList {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    max-height: 500px;
+    overflow-x: auto;
 }
 
-.ShoppingCartProductList .item {
+.ShoppingCartProductListItem {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -13,28 +14,23 @@
     border: 1px solid #ebebeb;
     border-bottom: none;
     width: 300px;
+    flex-wrap: wrap;
 }
 
-.ShoppingCartProductList .total {
+.ShoppingCartProductListItemMainPart {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ShoppingCartProductListButtons{
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    padding: 16px;
-    border: 1px solid #ebebeb;
-    width: 300px;
+    width: 150px;
 }
 
-.ShoppingCartProductList button {
-    background-color: #ffffff;
-    border: 0.1rem solid #ebebeb;
-    width: 40px;
-    height: 30px;
-}
-
-.ShoppingCartProductList button:first-child {
-    border-right: none;
-}
-
-.ShoppingCartProductList button:focus {
-    outline: none;
+.ShoppingCartProductListProductName{
+    width: 80%;
 }

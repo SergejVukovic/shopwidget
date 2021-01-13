@@ -1,14 +1,16 @@
 .ShoppingCart {
+    position: fixed;
+    background-color: #ffffff;
+    z-index: 9990;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: fixed;
     width: 100%;
     height: 100vh;
-    z-index: 99;
-    background-color: #ffffff;
-    top: 0;
 }
 
 .ShoppingCart .shoppingCartButtons {
@@ -18,13 +20,15 @@
     border-top: none;
 }
 
-.ShoppingCart .shoppingCartButtons button {
-    width: 100%;
-    height: 50px;
-    background-color: #fff;
-    border: 0.1rem solid #ebebeb;
-}
-
 .ShoppingCart .shoppingCartButtons button:first-child {
     border-right: none;
+}
+
+.ShoppingCart .total {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 16px;
+    border: 1px solid #ebebeb;
+    width: 300px;
 }

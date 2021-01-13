@@ -1,4 +1,6 @@
+
 export const ADD_PRODUCT = "ADD_PRODUCT";
+export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 export const REMOVE_PRODUCT = "REMOVE_PRODUCT";
 export const INCREASE = "INCREASE";
 export const DECREASE = "DECREASE";
@@ -17,7 +19,7 @@ export const CartReducer = (state, action) => {
             if(!nextCartItems.find(item => item.id === action.product.id)) {
                 nextCartItems.push({
                     ...action.product,
-                    quantity: 1
+                    quantity: action.product.quantity ? action.product.quantity : 1
                 })
             }
             return {
@@ -25,6 +27,23 @@ export const CartReducer = (state, action) => {
                 ...sumItems(nextCartItems),
                 cartItems: nextCartItems
             }
+        }
+
+        case UPDATE_PRODUCT: {
+            const nextCartItems = [...state.cartItems].map(cartItem => {
+                if(cartItem.id === action.product.id) {
+                    return {...action.product};
+                }
+                return cartItem;
+            })
+
+            const nextState = {
+                ...state,
+                ...sumItems(nextCartItems),
+                cartItems: nextCartItems
+            }
+
+            return nextState;
         }
         case REMOVE_PRODUCT: {
             return {

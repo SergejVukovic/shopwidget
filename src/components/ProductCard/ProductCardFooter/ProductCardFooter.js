@@ -1,8 +1,12 @@
-import "./ProductCardFooter.style.css";
+import React from 'react';
+
 import AddToShoppingCartIcon from "../../../assets/icons/react-icons/AddToShoppingCartIcon";
 import AddedToShoppingCartIcon from "../../../assets/icons/react-icons/AddedToShoppingCartIcon";
 
-const ProductCardFooter = ({onAddProductClick, onRemoveProductClick, inCart, product}) => {
+import "./ProductCardFooter.style.css";
+import SalePrice from "../../UI/SalePrice/SalePrice";
+
+const ProductCardFooter = ({onAddProductClick, onRemoveProductClick, onTitleClick, inCart, product}) => {
 
     const {name, price, is_sale, sale_price} = product;
     const productPrice = is_sale ? sale_price : price;
@@ -17,11 +21,11 @@ const ProductCardFooter = ({onAddProductClick, onRemoveProductClick, inCart, pro
 
     return (
         <div className="ProductCardFooter">
-            <div>
+            <div onClick={onTitleClick}>
                 <h3>{name}</h3>
             </div>
             <div className={"productPrice"}>
-                {is_sale && <span className={"sale_price"}>{price} $</span>}
+                {is_sale && <SalePrice>{price} $</SalePrice>}
                 {productPrice} $
             </div>
             <button onClick={inCart ? handleRemoveFromCartClick : handleAddToCartClick}>
@@ -29,12 +33,12 @@ const ProductCardFooter = ({onAddProductClick, onRemoveProductClick, inCart, pro
                     inCart ?
                         <>
                             <AddedToShoppingCartIcon width={25} height={25} />
-                            REMOVE FROM CART
+                            UKLONI IZ KORPE
                         </>
                         :
                         <>
                             <AddToShoppingCartIcon width={25} height={25} />
-                            ADD TO CART
+                            DODAJ U KORPU
                         </>
                 }
             </button>

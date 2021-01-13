@@ -1,0 +1,40 @@
+.ProductPreview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: fixed;
+    z-index: 9990;
+    background-color: #ffffff;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.ProductPreviewContent {
+    padding: 32px;
+    width: 100%;
+    text-align: center;
+}
+
+.ProductPreview svg {
+    margin-right: 16px;
+}
+
+@media only screen and (min-width: 768px) {
+    /* For desktop: */
+
+    .ProductPreviewContent {
+        text-align: left;
+        max-width: 500px;
+    }
+    .ProductPreview {
+        justify-content: space-around;
+    }
+
+}

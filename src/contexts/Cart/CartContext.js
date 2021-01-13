@@ -1,8 +1,9 @@
-import {useReducer, createContext} from 'react';
-import {CartReducer, ADD_PRODUCT, CLEAR, DECREASE, INCREASE, REMOVE_PRODUCT} from "./CartReducer";
+import React, {useReducer, createContext, useEffect} from 'react';
+import {CartReducer, ADD_PRODUCT, CLEAR, DECREASE, INCREASE, REMOVE_PRODUCT, UPDATE_PRODUCT} from "./CartReducer";
+import {getPersistentState, persistState} from "../utils";
 
 const CartContext = createContext();
-const initialState = { cartItems: [] };
+const initialState = getPersistentState('cart') || { cartItems: [] };
 
 const CartContextProvider = ({children}) => {
 
@@ -20,6 +21,10 @@ const CartContextProvider = ({children}) => {
         dispatch({type: ADD_PRODUCT, product})
     }
 
+    const updateProduct = product => {
+        dispatch({type: UPDATE_PRODUCT, product})
+    }
+
     const removeProduct = product => {
         dispatch({type: REMOVE_PRODUCT, product})
     }
@@ -31,11 +36,14 @@ const CartContextProvider = ({children}) => {
     const contextValues = {
         removeProduct,
         addProduct,
+        updateProduct,
         increase,
         decrease,
         clearCart,
         ...state
     }
+
+    useEffect(() => persistState('cart', state), [state]);
 
     return (
         <CartContext.Provider value={contextValues} >

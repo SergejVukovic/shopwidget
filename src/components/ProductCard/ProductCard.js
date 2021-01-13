@@ -1,33 +1,52 @@
+import React, {useContext} from "react";
+import {useHistory} from "react-router-dom";
+
 import ProductCardFooter from "./ProductCardFooter";
-import Paper from "../Paper";
+import Paper from "../UI/Paper";
 
 import {CartContext} from "../../contexts/Cart/CartContext";
-import {useContext} from "react";
 
 import './ProductCard.style.css';
+import {toast} from "react-hot-toast";
 
 const ProductCard = ({product}) => {
 
-    const {name} = product;
+    const {name, url_name} = product;
     const {addProduct, removeProduct, cartItems} = useContext(CartContext);
+    const history = useHistory();
 
-    const mainImage = product.images.filter(image => image.is_main)[0]
+    let mainImage = product.images.filter(image => image.is_main)[0]
+    if(!mainImage && product.images.length > 0) {
+        mainImage = product.images[0];
+    }
     const inCart = cartItems.filter(item => item.id === product.id).length > 0;
 
     const handleAddProductClick = () => {
         addProduct(product)
+        toast.success('Proizvod dodan u korpu');
     }
 
     const handleRemoveProductClick = () => {
         removeProduct(product)
+        toast.success('Proizvod uklonjen iz korpe');
     }
+
+    const handlePreviewClick = () => history.push(`/${url_name ? url_name : name}/preview`, {product});
 
     return (
         <Paper className="ProductCard">
-            <div className={"imageContainer"}>
-                <img width="300px" height="300px" alt={name} src={mainImage ? mainImage.image_url : `https://via.placeholder.com/300?text=${encodeURI(name)}`} />
+            <div className={"imageContainer"} onClick={handlePreviewClick}>
+                <img loading={"lazy"} width="300px" height="300px" alt={name} src={mainImage ?
+                    mainImage.image_url : `https://via.placeholder.com/300?text=${encodeURI(name)}`}
+                />
             </div>
-            <ProductCardFooter product={product} inCart={inCart} onAddProductClick={handleAddProductClick} onRemoveProductClick={handleRemoveProductClick} />
+            <ProductCardFooter
+                product={product}
+                inCart={inCart}
+                onAddProductClick={handleAddProductClick}
+                onRemoveProductClick={handleRemoveProductClick}
+                onTitleClick={handlePreviewClick}
+            />
         </Paper>
     )
 }

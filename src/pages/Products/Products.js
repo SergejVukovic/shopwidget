@@ -1,34 +1,39 @@
-import {useEffect, useState} from "react";
+import React, {useContext, useEffect} from "react";
+import {toast} from "react-hot-toast";
 
-import "./Products.style.css";
 import ProductCard from "../../components/ProductCard";
 import API from "../../API";
 
+import "./Products.style.css";
+import NoProducts from "../../components/UI/NoProducts";
+import {ProductContext} from "../../contexts/Products/ProductsContext";
 
-const Products = () => {
+const Products = ({filters}) => {
 
-    const [products, setProducts] = useState([]);
-    const [isFetching, setIsFetching] = useState(true);
-    const [error, setError] = useState(null);
+    const {addProducts, products} = useContext(ProductContext);
 
     useEffect(() => {
 
-        async function fetchProducts () {
-            const response = await API.request('product');
-            setProducts(response.data);
-        }
+            toast.loading('Učitavanje...')
 
-        fetchProducts()
-            .catch(error => setError(error))
-            .finally(() => setIsFetching(false));
+            API.shopRequest('product', {
+                getParams: filters
+            })
+            .then((response => addProducts(response.data)))
+            .catch(() => {
+                toast.error('Došlo je do greške, molimo pokušajte kasnije.');
+            })
+                .finally(() => toast.remove());
 
-    }, [setIsFetching, setProducts, setError]);
+    }, [filters]);
 
     return (
-        <div id={"products"}>
-            {isFetching && <div> Loading ... </div> }
+        <div className={'Products'}>
             {
-                products.map((product) => <ProductCard key={product.id} product={product} /> )
+                products.length === 0 ?
+                    <NoProducts/>
+                    :
+                    products.map((product) => <ProductCard key={product.id} product={product} /> )
             }
         </div>
     )

@@ -1,0 +1,66 @@
+.Filter {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    z-index: 9990;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.FilterPaper {
+    width: 90%;
+}
+
+.FilterActionButtons {
+    display: flex;
+}
+
+.FilterForm {
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+}
+
+.FilterFormElement {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.FilterFormElement label {
+    color: #737070;
+}
+
+.FilterFormElement input {
+    height: 30px;
+    width: 200px;
+    border: 0.1rem solid #ebebeb;
+}
+
+.FilterFormElement input[type="checkbox"] {
+   width: 20px;
+}
+
+.FilterFormElement select {
+    height: 35px !important;
+    width: 207px !important;
+    color: #737070;
+    margin-bottom: 0 !important;
+}
+
+
+@media only screen and (min-width: 768px) {
+    /* For desktop: */
+
+    .FilterPaper {
+        max-width: 600px;
+    }
+
+}

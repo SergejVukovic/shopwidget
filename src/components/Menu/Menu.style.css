@@ -1,0 +1,17 @@
+.Menu {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    padding: 20px 0 20px 0;
+    background-color: #fff;
+    border: 0.1rem solid #ebebeb;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    z-index: 999;
+}
+
+.Menu .line {
+    width: 60px;
+    border-bottom: 0.1rem solid grey;
+    margin: 8px 4px 8px 4px;
+}

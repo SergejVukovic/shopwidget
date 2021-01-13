@@ -42,9 +42,3 @@
     line-height: 1.25;
     margin-bottom: 0.5rem;
 }
-
-.ProductCardFooter .sale_price {
-    text-decoration: line-through;
-    text-decoration-color: grey;
-    color: grey;
-}

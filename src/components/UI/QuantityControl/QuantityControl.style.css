@@ -1,0 +1,33 @@
+.QuantityControl {
+    display: flex;
+    width: 100%;
+    height: 50px;
+    align-items: center;
+    margin-bottom: 32px;
+    margin-top: 32px;
+}
+
+.QuantityControlAmount {
+    width: 100%;
+    height: 50px;
+    background-color: #fff;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.QuantityControl h4 {
+    margin-right: 16px;
+}
+
+@media only screen and (min-width: 768px) {
+    /* For desktop: */
+    .QuantityControl {
+        display: flex;
+        width: 200px;
+        height: 50px;
+        align-items: center;
+        margin-bottom: 32px;
+        margin-top: 32px;
+    }
+
+}

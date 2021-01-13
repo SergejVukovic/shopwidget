@@ -1,0 +1,19 @@
+.Button {
+    width: 100%;
+    height: 50px;
+    background-color: #fff;
+    border: 0.1rem solid #ebebeb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #737070;
+    padding: 8px;
+}
+
+.Button button:first-child {
+    border-right: none;
+}
+
+.Button button:focus {
+    outline: none;
+}
