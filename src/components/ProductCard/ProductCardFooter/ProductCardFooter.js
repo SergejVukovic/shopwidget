@@ -8,7 +8,7 @@ import SalePrice from "../../UI/SalePrice/SalePrice";
 
 const ProductCardFooter = ({onAddProductClick, onRemoveProductClick, onTitleClick, inCart, product}) => {
 
-    const {name, price, is_sale, sale_price} = product;
+    const {name, price, is_sale, sale_price, currency} = product;
     const productPrice = is_sale ? sale_price : price;
 
     const handleAddToCartClick = () => {
@@ -26,7 +26,7 @@ const ProductCardFooter = ({onAddProductClick, onRemoveProductClick, onTitleClic
             </div>
             <div className={"productPrice"}>
                 {is_sale && <SalePrice>{price} $</SalePrice>}
-                {productPrice} $
+                {productPrice} {currency || '$'}
             </div>
             <button onClick={inCart ? handleRemoveFromCartClick : handleAddToCartClick}>
                 {

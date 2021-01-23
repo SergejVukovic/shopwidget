@@ -18,6 +18,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
+    "publish": "react-app-rewired build && ./scripts/sync.sh",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },

@@ -6,14 +6,18 @@ const API = {
     _REQUEST_URL : process.env.NODE_ENV === "production" ? "https://api.shoppingcart.services/api" : "https://dev.shoppingcart.services/api",
     _UUID: null,
 
-   async shopRequest (url, params) {
-        const requestURL = new URL(`${this._REQUEST_URL}/shop/${this._UUID}/${url}`)
+   async shopRequest (url, params, fetchShopInfo) {
+
+        const requestURL = !fetchShopInfo ?  new URL(`${this._REQUEST_URL}/shop/${this._UUID}/${url}`)
+            : `${this._REQUEST_URL}/shop/${this._UUID}`
 
        if(params?.getParams) {
            requestURL.search = new URLSearchParams(params.getParams).toString();
        }
 
-        const responseJSON = await fetch(requestURL.toString(), {
+       const builtUrl = !fetchShopInfo ? requestURL.toString() : requestURL;
+
+        const responseJSON = await fetch(builtUrl, {
             ...params,
             mode : "cors",
             headers: {

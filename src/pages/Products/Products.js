@@ -7,10 +7,12 @@ import API from "../../API";
 import "./Products.style.css";
 import NoProducts from "../../components/UI/NoProducts";
 import {ProductContext} from "../../contexts/Products/ProductsContext";
+import {ShopContext} from "../../contexts/Shop/ShopContext";
 
 const Products = ({filters}) => {
 
     const {addProducts, products} = useContext(ProductContext);
+    const {currency} = useContext(ShopContext);
 
     useEffect(() => {
 
@@ -33,7 +35,7 @@ const Products = ({filters}) => {
                 products.length === 0 ?
                     <NoProducts/>
                     :
-                    products.map((product) => <ProductCard key={product.id} product={product} /> )
+                    products.map((product) => <ProductCard key={product.id} product={{...product, currency}} /> )
             }
         </div>
     )

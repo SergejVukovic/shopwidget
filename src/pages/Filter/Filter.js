@@ -15,7 +15,7 @@ const Filter = ({setFilters}) => {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        API.request('categories')
+        API.shopRequest('category')
             .then(result => setCategories(result))
             .catch(() => setCategories(DEFAULT_CATEGORIES));
     }, [setCategories]);
@@ -38,7 +38,7 @@ const Filter = ({setFilters}) => {
         }
 
         setFilters(filterData)
-        toast.success('Filter Primjenjen !')
+        toast.success('Filter Primijenjen !')
     };
 
     return (
@@ -47,11 +47,11 @@ const Filter = ({setFilters}) => {
                 <div>
                     <form className={'FilterForm'} onSubmit={handleFilterSubmit} id={'filterForm'}>
                         <div className={'FilterFormElement'}>
-                            <label>Name</label>
+                            <label>Naziv Proizvoda</label>
                             <input type={'text'} placeholder={'Product name'} name={'name'} autoComplete={'off'}/>
                         </div>
                         <div className={'FilterFormElement'}>
-                            <label>Category</label>
+                            <label>Kategorija</label>
                             <Select name={'category'}>
                                 <option key={'DEFAULT'} value={null}>Filtriraj po kategoriji</option>
                                 {categories.map(category => <option key={category.id} value={category.id}>

@@ -3,40 +3,28 @@ import Button from "../Button";
 
 import './QuantityControl.style.css';
 
-const QuantityControl = ({passedQuantity, onChange, min = 1, localState = true, showLabel = true}) => {
+const QuantityControl = ({quantity, onChange, min = 1, showLabel = true}) => {
 
-    const [quantity, setQuantity] = useState(passedQuantity || min);
+    console.log(quantity);
 
-    useEffect(() => {
-        if(localState) {
-            onChange(quantity)
-        }
-    }, [quantity, onChange, localState])
-
-    const handleAdd = () => localState ? setQuantity(quantity + 1) : onChange(passedQuantity + 1);
-    const handleDecrease = () =>
-        localState ?
-            setQuantity(() => quantity === min ? min : quantity - 1)
-            :
-            onChange(passedQuantity === min ? min : passedQuantity - 1);
+    const handleAdd = () => {
+        onChange(quantity + 1);
+    };
+    const handleDecrease = () => {
+        onChange(quantity === min ? min : quantity - 1);
+    }
 
     return (
         <div className={'QuantityControl'}>
-            {showLabel &&  <h4>Qty:</h4>}
+            {showLabel &&  <h4>Količina:</h4>}
             <Button onClick={handleDecrease}>
                 {
-                    localState ?
-                        quantity === 0 ? 'x' : '-'
-                        :
-                        passedQuantity === 0 ? 'x' : '-'
+                    quantity === 1 ? 'x' : '-'
                 }
             </Button>
             <div className={'QuantityControlAmount'}>
                 {
-                    localState ?
-                        quantity
-                        :
-                        passedQuantity
+                   quantity
                 }
             </div>
             <Button onClick={handleAdd}> + </Button>

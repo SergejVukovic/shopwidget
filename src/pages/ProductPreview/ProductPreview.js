@@ -22,11 +22,13 @@ const ProductPreview = () => {
 
     const history = useHistory();
     const params = useParams();
+    const {addProduct, cartItems, removeProduct, updateProduct} = useContext(CartContext);
     const passedProduct = history?.location?.state?.product;
+    const inCartProduct = cartItems.filter(item => item.id === passedProduct.id)[0];
+
     const [product, setProduct] = useState(passedProduct || null);
-    const [quantity, setQuantity] = useState(product?.quantity || 1);
+    const [quantity, setQuantity] = useState(inCartProduct?.quantity || 1);
     const [selectedMeasurement, setSelectedMeasurement] = useState(product?.measurements[0]);
-    const {addProduct, cartItems, removeProduct} = useContext(CartContext);
 
     useEffect(() => {
         if(!passedProduct && !product) {
@@ -47,7 +49,15 @@ const ProductPreview = () => {
         }
     }, [])
 
-    const handleQuantityChange = (quantity) => setQuantity(quantity);
+    const handleQuantityChange = (quantity) => {
+        if(inCartProduct) {
+            updateProduct({
+                ...inCartProduct,
+                quantity
+            });
+        }
+        setQuantity(quantity);
+    }
 
     const handleAddToCart = () => {
         const nextProduct = {
@@ -55,13 +65,12 @@ const ProductPreview = () => {
             quantity,
             selectedMeasurement
         }
-        addProduct(cartItems.length > 0 ? cartItems.map(item => {
-                if(item.id === product.id) {
-                    return nextProduct
-                }
-                return item
-            }) : nextProduct
-        );
+
+        cartItems.filter(item => item.id === product.id).length > 0 ?
+            updateProduct(nextProduct)
+            :
+            addProduct(nextProduct);
+
         toast.success('Proizvod dodan u korpu')
     };
     const handleCancel = () => history.push('/');
@@ -91,7 +100,7 @@ const ProductPreview = () => {
                     <div>
                         {product.description}
                     </div>
-                    <QuantityControl initialQuantity={quantity} onChange={handleQuantityChange} min={1} />
+                    <QuantityControl quantity={quantity} onChange={handleQuantityChange} min={1} />
                     {
                         product.measurements.length > 0 &&
                         <Select value={selectedMeasurement?.id} onChange={handleMeasurement}>

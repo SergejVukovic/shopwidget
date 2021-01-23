@@ -8,12 +8,14 @@ import Select from "../UI/Select/Select";
 
 const ShoppingCartProductList = () => {
 
-    const {cartItems, increase, decrease, removeProduct, updateProduct} = useContext(CartContext);
+    const {cartItems,removeProduct, updateProduct} = useContext(CartContext);
 
     const handleQuantityChange = (product, quantity) => {
         if(quantity === 0) return removeProduct(product);
-        if(product.quantity > quantity) return decrease(product);
-        if(product.quantity < quantity) return increase(product);
+        updateProduct({
+            ...product,
+            quantity
+        });
     }
 
     const handleMeasurementChange = (event, product) => {
@@ -35,10 +37,9 @@ const ShoppingCartProductList = () => {
                                 </div>
                                 <div className={"ShoppingCartProductListButtons"}>
                                     <QuantityControl
-                                        passedQuantity={product.quantity}
+                                        quantity={product.quantity}
                                         onChange={(quantity) => handleQuantityChange(product, quantity)}
                                         min={0}
-                                        localState={false}
                                         showLabel={false}
                                     />
                                 </div>

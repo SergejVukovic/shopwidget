@@ -37,13 +37,11 @@ export const CartReducer = (state, action) => {
                 return cartItem;
             })
 
-            const nextState = {
+            return {
                 ...state,
                 ...sumItems(nextCartItems),
                 cartItems: nextCartItems
-            }
-
-            return nextState;
+            };
         }
         case REMOVE_PRODUCT: {
             return {
