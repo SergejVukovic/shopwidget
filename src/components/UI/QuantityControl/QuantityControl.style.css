@@ -7,8 +7,13 @@
     margin-top: 32px;
 }
 
+.QuantityControl .Button {
+   border-right: 0.1rem solid #ebebeb !important;
+    width: 50px;
+}
+
 .QuantityControlAmount {
-    width: 100%;
+    width: 50px;
     height: 50px;
     background-color: #fff;
     margin-top: 30px;

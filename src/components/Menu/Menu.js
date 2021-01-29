@@ -17,12 +17,12 @@ const Menu = () => {
 
     return (
         <div className="Menu">
-            <div onClick={showShoppingCart}>
+            <div onClick={showShoppingCart} className={"MenuButton"}>
                 <ItemCounter itemCount={cartItems.length} />
                 <ShoppingCartIcon width={25} height={25} fill={"#333"}  />
             </div>
             <div className={"line"} />
-            <div onClick={showFilterPage}>
+            <div onClick={showFilterPage} className={"MenuButton"}>
                 <SearchIcon width={25} height={25} />
             </div>
         </div>

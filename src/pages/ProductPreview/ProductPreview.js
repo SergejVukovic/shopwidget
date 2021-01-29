@@ -17,12 +17,16 @@ import "./ProductPreview.style.css";
 import API from "../../API";
 import Paper from "../../components/UI/Paper";
 import {Helmet} from "react-helmet";
+import {ShopContext} from "../../contexts/Shop/ShopContext";
 
 const ProductPreview = () => {
 
     const history = useHistory();
     const params = useParams();
     const {addProduct, cartItems, removeProduct, updateProduct} = useContext(CartContext);
+    const shop = useContext(ShopContext);
+
+    const productCurrency = shop?.currency || '$';
     const passedProduct = history?.location?.state?.product;
     const inCartProduct = cartItems.filter(item => item.id === passedProduct.id)[0];
 
@@ -95,7 +99,7 @@ const ProductPreview = () => {
                 <Paper className={'ProductPreviewContent'}>
                     <div>
                         <h1>{product.name}</h1>
-                        {product.is_sale ? <SalePrice>{product.sale_price} $</SalePrice>: <h2> {product.price} $</h2> }
+                        {product.is_sale ? <SalePrice>{product.sale_price} $</SalePrice>: <h2> {product.price} {productCurrency}</h2> }
                     </div>
                     <div>
                         {product.description}

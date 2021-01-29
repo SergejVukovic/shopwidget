@@ -16,7 +16,7 @@ export const ShopReducer = (state, action) => {
             return {
                 ...state,
                 fetching: false,
-                shop: action.products
+                ...action.shop
             };
         }
         case FETCH_FAILED: {
@@ -29,8 +29,7 @@ export const ShopReducer = (state, action) => {
 
         case CLEAR: {
             return {
-                ...state,
-                shop: null
+                fetching: false
             }
         }
 

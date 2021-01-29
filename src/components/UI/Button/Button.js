@@ -4,9 +4,13 @@ import './Button.style.css';
 
 const Button = (props) => {
     const className = props.className || ''
-    return <button {...props} className={`Button ${className}`}>
-        {props.children}
-    </button>
+    return (
+        <div className={`Button ${className}`}>
+            <button  {...props}>
+                {props.children}
+            </button>
+        </div>
+        )
 }
 
 export default Button;

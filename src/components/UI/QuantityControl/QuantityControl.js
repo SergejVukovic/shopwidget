@@ -1,11 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import Button from "../Button";
 
 import './QuantityControl.style.css';
 
 const QuantityControl = ({quantity, onChange, min = 1, showLabel = true}) => {
-
-    console.log(quantity);
 
     const handleAdd = () => {
         onChange(quantity + 1);

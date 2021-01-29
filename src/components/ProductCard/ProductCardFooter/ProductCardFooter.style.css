@@ -20,6 +20,10 @@
     outline: none;
 }
 
+.ProductCardFooter button:hover {
+    cursor: pointer;
+}
+
 .ProductCardFooter button svg{
     margin-right: 6px;
 }

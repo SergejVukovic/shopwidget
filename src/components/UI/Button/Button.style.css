@@ -1,4 +1,4 @@
-.Button {
+.Button button{
     width: 100%;
     height: 50px;
     background-color: #fff;
@@ -16,4 +16,8 @@
 
 .Button button:focus {
     outline: none;
+}
+
+.Button button:hover {
+    cursor: pointer;
 }

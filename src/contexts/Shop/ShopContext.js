@@ -1,24 +1,37 @@
 import React, {useReducer, createContext, useEffect} from 'react';
 import {FETCH_FINISH, ShopReducer} from "./ShopReducer";
-import {persistState} from "../utils";
+import {getPersistentState, persistState} from "../utils";
+import API from "../../API";
 
 const ShopContext = createContext();
+const initialState = getPersistentState('shop_info') || { shop: null };
 
-const ShopContextProvider = ({children, initialState}) => {
 
-    const [state, dispatch] = useReducer(ShopReducer, initialState)
+const ShopContextProvider = ({children}) => {
 
-    const addShopInfo = (products) => dispatch({
+    const [state, dispatch] = useReducer(ShopReducer, initialState);
+
+    useEffect(() => {
+        API.shopRequest('', null, true)
+            .then((shopData) => {
+                dispatch({
+                    type: FETCH_FINISH,
+                    shop: shopData
+                })
+            });
+    }, [dispatch]);
+
+    useEffect(() => persistState('shop_info', state), [state]);
+
+    const addShopInfo = (shop) => dispatch({
         type: FETCH_FINISH,
-        products
+        shop
     });
 
     const contextValues = {
         ...state,
         addShopInfo,
     }
-
-    useEffect(() => persistState('shop_info', state), [state]);
 
     return (
         <ShopContext.Provider value={contextValues} >

@@ -9,3 +9,7 @@
     height: 300px;
     background-color: #E5E5E5;
 }
+
+.ProductCard .imageContainer :hover {
+    cursor: pointer;
+}
