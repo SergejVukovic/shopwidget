@@ -21,7 +21,19 @@ const ShoppingCart = () => {
     const [showBillingInformation, setShowBillingInformation] = useState(false);
 
     const toggleBillingInformation = () => setShowBillingInformation(!showBillingInformation);
-    const closeShoppingCart = () => history.goBack();
+
+    const closeShoppingCart = () => {
+
+        if(!showBillingInformation && cartItems.length > 0) {
+
+            API.shopEvent({
+                name: 'order_abandoned',
+                category: 'order',
+            });
+        }
+
+        history.goBack();
+    }
 
     const generateProductIds = () => {
         const productIds = [];
@@ -78,7 +90,13 @@ const ShoppingCart = () => {
                     productIds: generateProductIds(),
                     productsMeasurements: generateProductsMeasurements()
                 })
-            });
+            }).then((order) => {
+                 API.shopEvent({
+                     name: 'order_confirmed',
+                     category: 'order',
+                     additional_data: JSON.stringify(order)
+                 });
+             });
         }catch (error) {
             toast.error('Došlo je do greške, molimo pokušajte kasnije.')
             return;

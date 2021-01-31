@@ -43,6 +43,21 @@ const API = {
         });
         const response = await responseJSON.json();
         return response.data;
+    },
+    async shopEvent (params) {
+        const requestURL = new URL(`${this._REQUEST_URL}/shop/${this._UUID}/event`);
+        const responseJSON = await fetch(requestURL.toString(), {
+            method: "POST",
+            body: JSON.stringify(params),
+            mode : "cors",
+            headers: {
+                "Content-Type": 'application/json',
+                "Access-Control-Allow-Origin": '*',
+                "Accept": 'application/json'
+            }
+        });
+        const response = await responseJSON.json();
+        return response.data;
     }
 }
 

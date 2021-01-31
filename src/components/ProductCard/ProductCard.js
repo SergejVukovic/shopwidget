@@ -8,6 +8,7 @@ import {CartContext} from "../../contexts/Cart/CartContext";
 
 import './ProductCard.style.css';
 import {toast} from "react-hot-toast";
+import API from "../../API";
 
 const ProductCard = ({product}) => {
 
@@ -22,11 +23,21 @@ const ProductCard = ({product}) => {
     const inCart = cartItems.filter(item => item.id === product.id).length > 0;
 
     const handleAddProductClick = () => {
+        API.shopEvent({
+            name: 'add_to_cart',
+            category: 'cart',
+            additional_data: JSON.stringify(product)
+        });
         addProduct(product)
         toast.success('Proizvod dodan u korpu');
     }
 
     const handleRemoveProductClick = () => {
+        API.shopEvent({
+            name: 'remove_from_cart',
+            category: 'cart',
+            additional_data: JSON.stringify(product)
+        });
         removeProduct(product)
         toast.success('Proizvod uklonjen iz korpe');
     }

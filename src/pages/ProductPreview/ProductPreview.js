@@ -75,10 +75,21 @@ const ProductPreview = () => {
             :
             addProduct(nextProduct);
 
+        API.shopEvent({
+            name: 'add_to_cart',
+            category: 'cart',
+            additional_data: JSON.stringify(product)
+        });
+
         toast.success('Proizvod dodan u korpu')
     };
     const handleCancel = () => history.push('/');
     const handleRemove = () => {
+        API.shopEvent({
+            name: 'remove_from_cart',
+            category: 'cart',
+            additional_data: JSON.stringify(product)
+        });
         removeProduct(product);
         toast.success('Proizvod uklonjen iz korpe')
     }
