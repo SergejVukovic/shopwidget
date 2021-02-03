@@ -32,7 +32,7 @@ const ProductPreview = () => {
 
     const [product, setProduct] = useState(passedProduct || null);
     const [quantity, setQuantity] = useState(inCartProduct?.quantity || 1);
-    const [selectedMeasurement, setSelectedMeasurement] = useState(product?.measurements[0]);
+    const [selectedMeasurement, setSelectedMeasurement] = useState(product?.measurements ? product.measurements[0] : 0);
 
     useEffect(() => {
         if(!passedProduct && !product) {
@@ -98,6 +98,10 @@ const ProductPreview = () => {
     }
     const inCart = cartItems.filter(item => item.id === product.id).length > 0;
 
+    if(!product?.name) {
+       return null
+    }
+
     return (
         <>
             <Helmet>
@@ -117,7 +121,7 @@ const ProductPreview = () => {
                     </div>
                     <QuantityControl quantity={quantity} onChange={handleQuantityChange} min={1} />
                     {
-                        product.measurements.length > 0 &&
+                        product?.measurements?.length > 0 &&
                         <Select value={selectedMeasurement?.id} onChange={handleMeasurement}>
                             {product.measurements.map(measurement => <option value={measurement.id} key={measurement.id}>{measurement.unit}</option>)}
                         </Select>
