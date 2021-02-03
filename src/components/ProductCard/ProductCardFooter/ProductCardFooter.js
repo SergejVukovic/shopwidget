@@ -31,7 +31,7 @@ const ProductCardFooter = ({onAddProductClick, onRemoveProductClick, onTitleClic
                 {is_sale && <SalePrice>{price} $</SalePrice>}
                 {productPrice} {productCurrency}
             </div>
-            <button onClick={inCart ? handleRemoveFromCartClick : handleAddToCartClick}>
+            <button onClick={inCart ? handleRemoveFromCartClick : handleAddToCartClick} className={inCart ? 'ripple-remove' : 'ripple-success'}>
                 {
                     inCart ?
                         <>

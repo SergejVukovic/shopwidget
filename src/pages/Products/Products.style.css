@@ -4,3 +4,11 @@
     flex-wrap: wrap;
     padding: 16px
 }
+
+@media only screen and (min-width: 768px) {
+    /* For desktop: */
+
+    .Products {
+        width: 90%;
+    }
+}

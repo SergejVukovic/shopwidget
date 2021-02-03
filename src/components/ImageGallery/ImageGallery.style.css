@@ -20,6 +20,11 @@
     --control-bullet-active-color: #26456f;
     --loader-bar-color: #851515;
     --loader-bar-height: 6px;
+    --content-background-color: #ffffff;
+}
+
+.awssld__content>img, .awssld__content>video {
+    object-fit: contain !important;
 }
 
 @media only screen and (min-width: 768px) {

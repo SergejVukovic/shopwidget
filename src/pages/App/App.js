@@ -36,7 +36,7 @@ function App() {
                         <Route path={`/`} exact component={() => <Products filters={filters} />} />
                     </ProductsContextProvider>
                     <Route path={`/`} exact component={Menu} />
-                    <Route path={`/`} exact component={CategoryMenu} />
+                    <Route path={`/`} exact component={() => <CategoryMenu setFilters={setFilters}/>} />
                     <Route path={`/cart`} exact component={ShoppingCart} />
                     <Route path={`/filter`} exact component={() => <Filter setFilters={setFilters} />} />
                     <Route path={`/:product/preview`} exact component={ProductPreview} />

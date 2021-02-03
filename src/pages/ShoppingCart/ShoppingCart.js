@@ -12,10 +12,13 @@ import API from "../../API";
 
 import "./ShoppingCart.style.css";
 import {toast} from "react-hot-toast";
+import {ShopContext} from "../../contexts/Shop/ShopContext";
 
 const ShoppingCart = () => {
 
     const {cartItems, clearCart, total} = useContext(CartContext);
+    const shop = useContext(ShopContext);
+    const productCurrency = shop?.currency || "$";
     const history = useHistory()
 
     const [showBillingInformation, setShowBillingInformation] = useState(false);
@@ -118,7 +121,7 @@ const ShoppingCart = () => {
                     <ShoppingCartProductList />
             }
             <div className={"total"}>
-                Ukupno : {total} $
+                Ukupno : {total} {productCurrency}
             </div>
             <div className={"shoppingCartButtons"}>
                 {
