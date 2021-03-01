@@ -1,8 +1,8 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import {useHistory, useParams} from 'react-router-dom';
 import {toast} from "react-hot-toast";
-
-import {CartContext} from "../../contexts/Cart/CartContext";
+import {Helmet} from "react-helmet";
 
 import ImageGallery from "../../components/ImageGallery";
 import SalePrice from "../../components/UI/SalePrice";
@@ -13,18 +13,19 @@ import Select from "../../components/UI/Select/Select";
 import AddToShoppingCartIcon from "../../assets/icons/react-icons/AddToShoppingCartIcon";
 import AddedToShoppingCartIcon from "../../assets/icons/react-icons/AddedToShoppingCartIcon";
 
-import "./ProductPreview.style.css";
 import API from "../../API";
 import Paper from "../../components/UI/Paper";
-import {Helmet} from "react-helmet";
-import {ShopContext} from "../../contexts/Shop/ShopContext";
+import {addProduct, removeProduct, updateProduct} from "../../store/actions/cart.action";
+
+import "./ProductPreview.style.css";
+
 
 const ProductPreview = () => {
 
     const history = useHistory();
     const params = useParams();
-    const {addProduct, cartItems, removeProduct, updateProduct} = useContext(CartContext);
-    const shop = useContext(ShopContext);
+    const dispatch = useDispatch();
+    const {shop, cart: {cartItems}} = useSelector(state => state);
 
     const productCurrency = shop?.currency || '$';
     const passedProduct = history?.location?.state?.product;
@@ -37,28 +38,35 @@ const ProductPreview = () => {
     useEffect(() => {
         if(!passedProduct && !product) {
             toast.loading('Učitavanje...');
-            API.shopRequest(`product/${params.product}`, {name: params.product})
+            API.shopRequest(`product`, {getParams: {url_name: params.product}})
                 .then((product) => {
-                    setProduct(product);
+                    setProduct(product.data[0]);
                     toast.dismiss();
                 });
         }
     }, [passedProduct, product, setProduct, params])
 
     useEffect(() => {
+
+        const hiddenState = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+
         return () => {
             document.head.querySelectorAll('[data-react-helmet=true]')
                 .forEach(element => element.remove());
             document.title = document.title.split('|')[0];
+            document.body.style.overflow = hiddenState;
         }
     }, [])
 
     const handleQuantityChange = (quantity) => {
         if(inCartProduct) {
-            updateProduct({
-                ...inCartProduct,
-                quantity
-            });
+            dispatch(
+                updateProduct({
+                    ...inCartProduct,
+                    quantity
+                })
+            );
         }
         setQuantity(quantity);
     }
@@ -71,9 +79,9 @@ const ProductPreview = () => {
         }
 
         cartItems.filter(item => item.id === product.id).length > 0 ?
-            updateProduct(nextProduct)
+            dispatch(updateProduct(nextProduct))
             :
-            addProduct(nextProduct);
+            dispatch(addProduct(nextProduct))
 
         API.shopEvent({
             name: 'add_to_cart',
@@ -90,7 +98,7 @@ const ProductPreview = () => {
             category: 'cart',
             additional_data: JSON.stringify(product)
         });
-        removeProduct(product);
+        dispatch(removeProduct(product));
         toast.success('Proizvod uklonjen iz korpe')
     }
     const handleMeasurement = (event) => {
@@ -106,7 +114,7 @@ const ProductPreview = () => {
         <>
             <Helmet>
                 <title>{document.title} | {product.name}</title>
-                <meta name={"og:title"} content={`${document.title} | ${product.name}`} />
+                <meta name={"og:title"} content={`Ugled | ${product.name}`} />
                 <meta name={"description"} content={product.description} />
             </Helmet>
             <div className={"ProductPreview"}>

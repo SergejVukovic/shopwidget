@@ -3,7 +3,7 @@ const API = {
     // Local http://localhost:8000/api
     // Dev   https://dev.shoppingcart.services/api
     // Prod  https://api.shoppingcart.services/api
-    _REQUEST_URL : process.env.NODE_ENV === "production" ? "https://api.shoppingcart.services/api" : "https://dev.shoppingcart.services/api",
+    _REQUEST_URL : process.env.NODE_ENV === "production" ? "https://api.shoppingcart.services/api" : "https://api.shoppingcart.services/api",
     _UUID: null,
 
    async shopRequest (url, params, fetchShopInfo) {

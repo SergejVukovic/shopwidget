@@ -1,28 +1,32 @@
 import React from "react";
-import {useContext} from "react";
-import {CartContext} from "../../contexts/Cart/CartContext";
 
 import './ShoppingCartProductList.style.css';
 import QuantityControl from "../UI/QuantityControl";
 import Select from "../UI/Select/Select";
+import {useDispatch} from "react-redux";
+import {removeProduct, updateProduct} from "../../store/actions/cart.action";
 
-const ShoppingCartProductList = () => {
+const ShoppingCartProductList = ({cartItems = []}) => {
 
-    const {cartItems,removeProduct, updateProduct} = useContext(CartContext);
+    const dispatch = useDispatch();
 
     const handleQuantityChange = (product, quantity) => {
-        if(quantity === 0) return removeProduct(product);
-        updateProduct({
-            ...product,
-            quantity
-        });
+        if(quantity === 0) return dispatch(removeProduct(product));
+        dispatch(
+            updateProduct({
+                ...product,
+                quantity
+            })
+        );
     }
 
     const handleMeasurementChange = (event, product) => {
-        updateProduct({
-            ...product,
-            selectedMeasurement: product.measurements.filter(measurement => measurement.id === Number(event.target.value))[0]
-        })
+        dispatch(
+            updateProduct({
+                ...product,
+                selectedMeasurement: product.measurements.filter(measurement => measurement.id === Number(event.target.value))[0]
+            })
+        );
     }
 
     return (

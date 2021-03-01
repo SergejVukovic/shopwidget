@@ -1,20 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter} from "react-router-dom";
+import {Provider} from "react-redux";
+
 
 import App from './pages/App/App';
 import API from "./API";
+import store from "./store";
 
 import './index.css';
 
 const widgetContainer = document.getElementById('shopping-cart');
-const widgetPaths = ['filter','cart'];
+const widgetPaths = ['filter','cart','products', 'all', 'sale', 'menu', 'page'];
 
 const pathNameArray =  window.location.pathname.split('/');
 
+//Removes product name from basename
 if(pathNameArray.includes('preview')) {
     pathNameArray.splice(pathNameArray.indexOf('preview') - 1, 1);
     pathNameArray.splice(pathNameArray.indexOf('preview'), 1);
+}
+
+//Removes category from basename
+if(pathNameArray.includes('products')) {
+    pathNameArray.splice(pathNameArray.indexOf('products') + 1, 1);
+    pathNameArray.splice(pathNameArray.indexOf('products'), 1);
+}
+
+if(pathNameArray.includes('page')) {
+    pathNameArray.splice(pathNameArray.indexOf('page') + 1, 1);
+    pathNameArray.splice(pathNameArray.indexOf('page'), 1);
 }
 
 let basename =
@@ -30,9 +45,11 @@ basename = basename.charAt(basename.length - 1) === '/' ? basename.slice(0, -1) 
 API._UUID = widgetContainer?.getAttribute('data-shop-uuid');
 ReactDOM.render(
   <React.StrictMode>
-      <BrowserRouter basename={basename}>
-          <App />
-      </BrowserRouter>
+      <Provider store={store}>
+          <BrowserRouter basename={basename}>
+              <App />
+          </BrowserRouter>
+      </Provider>
   </React.StrictMode>,
   widgetContainer
 );

@@ -1,21 +1,78 @@
-.Menu {
-    position: fixed;
-    right: 0;
-    top: 50%;
-    padding: 20px 0 20px 0;
-    background-color: #fff;
-    border: 0.1rem solid #ebebeb;
-    border-bottom-left-radius: 10px;
-    border-top-left-radius: 10px;
-    z-index: 999;
-}
 
-.MenuButton {
-    cursor: pointer;
+.Menu {
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    border: 0.1rem solid #ebebeb;
+    background-color: #fff;
+    left: 0;
+    right: 0;
 }
 
 .Menu .line {
-    width: 60px;
-    border-bottom: 0.1rem solid grey;
-    margin: 8px 4px 8px 4px;
+    display: none;
+}
+
+.Menu .MenuButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    padding: 15px;
+    border-right: 0.1rem solid #ebebeb;
+    border-left: 0.1rem solid #ebebeb;
+}
+
+#categoryButton {
+    display: flex;
+}
+#filterButton {
+    display: flex;
+}
+
+
+@media only screen and (min-width: 768px) {
+    /* For desktop: */
+
+    .Menu {
+        width: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        bottom: auto;
+        position: fixed;
+        right: 0;
+        top: 50%;
+        padding: 20px 0 20px 0;
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+        z-index: 999;
+        left: auto;
+    }
+
+    .Menu .MenuButton {
+        cursor: pointer;
+        border: none;
+    }
+
+    .Menu .line {
+        width: 60px;
+        border-bottom: 0.1rem solid grey;
+        margin: 8px 4px 8px 4px;
+    }
+
+    #categoryButton {
+        display: none;
+    }
+
+    #filterButton {
+        display: none;
+    }
+
 }

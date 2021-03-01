@@ -1,24 +1,22 @@
-import React, {useEffect, useState} from "react";
-import {Route} from 'react-router-dom';
+import React, {useEffect} from "react";
+import {Route, Switch, Redirect, useParams} from 'react-router-dom';
 import {Toaster} from "react-hot-toast";
+import {useDispatch} from "react-redux";
 
 import Products from "../Products";
-import Menu from "../../components/Menu/Menu";
 import ShoppingCart from "../ShoppingCart/ShoppingCart";
 import ProductPreview from "../ProductPreview";
-import CategoryMenu from "../../components/CategoryMenu";
-import Filter from "../Filter/Filter";
+// import Filter from "../Filter/Filter";
 
-import {ProductsContextProvider} from "../../contexts/Products/ProductsContext";
-import {ShopContextProvider} from "../../contexts/Shop/ShopContext";
-import {CartContextProvider} from "../../contexts/Cart/CartContext";
+import API from "../../API";
+import {fetchShop} from "../../store/actions/shop.action";
 
 import './App.css';
-import API from "../../API";
 
 function App() {
 
-    const [filters, setFilters] = useState(null);
+    const dispatch = useDispatch();
+    const {category, page} = useParams();
 
     useEffect(() => {
         API.shopEvent({
@@ -27,21 +25,20 @@ function App() {
         });
     }, []);
 
+    useEffect(() => {
+        dispatch(fetchShop())
+    }, [dispatch]);
+
     return (
         <div className="App">
             <Toaster />
-            <ShopContextProvider>
-                <CartContextProvider>
-                    <ProductsContextProvider>
-                        <Route path={`/`} exact component={() => <Products filters={filters} />} />
-                    </ProductsContextProvider>
-                    <Route path={`/`} exact component={Menu} />
-                    <Route path={`/`} exact component={() => <CategoryMenu setFilters={setFilters}/>} />
-                    <Route path={`/cart`} exact component={ShoppingCart} />
-                    <Route path={`/filter`} exact component={() => <Filter setFilters={setFilters} />} />
-                    <Route path={`/:product/preview`} exact component={ProductPreview} />
-                </CartContextProvider>
-            </ShopContextProvider>
+            <Switch>
+                <Route path={`/products/:category/page/:page`} component={Products} />
+                <Route path={`/cart`} exact component={ShoppingCart} />
+                {/*<Route path={`/filter`} exact component={() => <Filter setFilters={setFilters} />} />*/}
+                <Route path={`/:product/preview`} exact component={ProductPreview} />
+                <Redirect push to={`/products/${category || 'all'}/page/${page || 1}`} />
+            </Switch>
         </div>
       );
 }

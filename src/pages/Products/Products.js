@@ -1,41 +1,65 @@
-import React, {useContext, useEffect} from "react";
-import {toast} from "react-hot-toast";
+import React, {useEffect} from "react";
+import {Route, useRouteMatch, useParams, useLocation} from "react-router-dom";
+import {useSelector, useDispatch} from "react-redux";
 
 import ProductCard from "../../components/ProductCard";
-import API from "../../API";
+import NoProducts from "../../components/UI/NoProducts";
+import Menu from "../../components/Menu";
+import CategoryMenu from "../../components/CategoryMenu";
+
+import {fetchProducts} from "../../store/actions/products.action";
+import {isDesktop} from "../../utils";
 
 import "./Products.style.css";
-import NoProducts from "../../components/UI/NoProducts";
-import {ProductContext} from "../../contexts/Products/ProductsContext";
+import Pagination from "../../components/UI/Pagination";
 
-const Products = ({filters}) => {
+const Products = () => {
 
-    const {addProducts, products} = useContext(ProductContext);
+    const {data: products, maxPages} = useSelector(state => state.products);
+    const {categories, fetching: isShopFetching} = useSelector(state => state.shop);
+    const filters = useSelector(state => state.filters);
+
+    const {pathname} = useLocation();
+    const { category, page: currentPage } = useParams();
+    const { path } = useRouteMatch();
+    const dispatch = useDispatch();
 
     useEffect(() => {
-
-            toast.loading('Učitavanje...')
-
-            API.shopRequest('product', {
-                getParams: filters
-            })
-            .then((response => addProducts(response.data)))
-            .catch(() => {
-                toast.error('Došlo je do greške, molimo pokušajte kasnije.');
-            })
-                .finally(() => toast.remove());
-
-    }, [filters]);
+        if(isShopFetching) return;
+        let additionalFilters = {
+            page: currentPage
+        };
+        if(category === "sale") {
+            additionalFilters.sale = true;
+        }
+        const categoryId = categories?.filter(cat => cat.url_name === category)[0]?.id;
+        dispatch(fetchProducts(categoryId, {...filters, ...additionalFilters}));
+    }, [dispatch, filters, category, categories, isShopFetching, currentPage]);
 
     return (
-        <div className={'Products'}>
+        <>
+            <Route path={path} component={Menu} />
             {
-                products.length === 0 ?
-                    <NoProducts/>
+                isDesktop() ?
+                    <Route path={path} component={CategoryMenu} />
                     :
-                    products.map((product) => <ProductCard key={product.id} product={{...product}} /> )
+                    <Route path={`${path}/menu`} component={CategoryMenu} />
             }
-        </div>
+            <Route path={path} render={() => (
+                <div className={`Products ${pathname.includes('menu') ? 'hide' : ''}`}>
+                    {
+                        products.length === 0 ?
+                            <NoProducts/>
+                            :
+                            products.map((product) => <ProductCard key={product.id} product={{...product}} /> )
+                    }
+                </div>
+            )} />
+            {
+                maxPages > 1 &&
+                <Route path={path} component={() => <> <br/> <Pagination maxPages={maxPages} currentPage={currentPage} /> </>} />
+            }
+        </>
     )
 }
 

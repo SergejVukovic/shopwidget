@@ -1,0 +1,21 @@
+.Pagination {
+  display: flex;
+  flex: 1 0 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.PaginationContainer {
+  display: flex;
+  width: 100%;
+  max-width: 500px;
+}
+
+.PaginationContainer a {
+  text-decoration: none;
+  width: 100%;
+}
+
+.PaginationContainer:last-child {
+  border-right: 0.1rem solid #ebebeb;
+}

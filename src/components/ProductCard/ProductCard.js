@@ -1,19 +1,21 @@
-import React, {useContext} from "react";
+import React from "react";
 import {useHistory} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {toast} from "react-hot-toast";
 
 import ProductCardFooter from "./ProductCardFooter";
 import Paper from "../UI/Paper";
 
-import {CartContext} from "../../contexts/Cart/CartContext";
+import API from "../../API";
+import {addProduct, removeProduct} from "../../store/actions/cart.action";
 
 import './ProductCard.style.css';
-import {toast} from "react-hot-toast";
-import API from "../../API";
 
 const ProductCard = ({product}) => {
 
     const {name, url_name} = product;
-    const {addProduct, removeProduct, cartItems} = useContext(CartContext);
+    const {cartItems} = useSelector(state => state.cart);
+    const dispatch = useDispatch();
     const history = useHistory();
 
     let mainImage = product.images.filter(image => image.is_main)[0]
@@ -28,7 +30,7 @@ const ProductCard = ({product}) => {
             category: 'cart',
             additional_data: JSON.stringify(product)
         });
-        addProduct(product)
+        dispatch(addProduct(product))
         toast.success('Proizvod dodan u korpu');
     }
 
@@ -38,7 +40,7 @@ const ProductCard = ({product}) => {
             category: 'cart',
             additional_data: JSON.stringify(product)
         });
-        removeProduct(product)
+        dispatch(removeProduct(product));
         toast.success('Proizvod uklonjen iz korpe');
     }
 

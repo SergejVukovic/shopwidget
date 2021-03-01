@@ -1,8 +1,8 @@
 .App {
   display: flex;
-  flex-direction: row-reverse;
   justify-content: space-between;
   text-align: center;
+  flex-wrap: wrap;
 }
 
 /* Ripple effect */
@@ -44,4 +44,16 @@
   background-color: #c13c3c;
   background-size: 100%;
   transition: background 0s;
+}
+
+.hide {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  /* For desktop: */
+
+  .App {
+
+  }
 }

@@ -1,14 +1,20 @@
 .Products {
     display: flex;
-    justify-content: space-evenly;
+    flex-direction: column;
     flex-wrap: wrap;
-    padding: 16px
+    padding: 16px 16px 100px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
 }
 
 @media only screen and (min-width: 768px) {
     /* For desktop: */
 
     .Products {
-        width: 90%;
+        justify-content: space-evenly;
+        flex-direction: row;
+        padding-bottom: 0;
+        flex: 1 0 70%;
     }
 }

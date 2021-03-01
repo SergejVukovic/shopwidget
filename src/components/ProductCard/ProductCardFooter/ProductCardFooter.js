@@ -1,18 +1,19 @@
-import React, {useContext} from 'react';
+import React from 'react';
+import {useSelector} from "react-redux";
 
 import AddToShoppingCartIcon from "../../../assets/icons/react-icons/AddToShoppingCartIcon";
 import AddedToShoppingCartIcon from "../../../assets/icons/react-icons/AddedToShoppingCartIcon";
 
-import "./ProductCardFooter.style.css";
 import SalePrice from "../../UI/SalePrice/SalePrice";
-import {ShopContext} from "../../../contexts/Shop/ShopContext";
+
+import "./ProductCardFooter.style.css";
 
 const ProductCardFooter = ({onAddProductClick, onRemoveProductClick, onTitleClick, inCart, product}) => {
 
     const {name, price, is_sale, sale_price} = product;
-    const shop = useContext(ShopContext);
+    const {currency} = useSelector(state => state.shop)
     const productPrice = is_sale ? sale_price : price;
-    const productCurrency = shop?.currency || '$';
+    const productCurrency = currency || '$';
 
     const handleAddToCartClick = () => {
         onAddProductClick && onAddProductClick()
@@ -31,7 +32,7 @@ const ProductCardFooter = ({onAddProductClick, onRemoveProductClick, onTitleClic
                 {is_sale && <SalePrice>{price} $</SalePrice>}
                 {productPrice} {productCurrency}
             </div>
-            <button onClick={inCart ? handleRemoveFromCartClick : handleAddToCartClick} className={inCart ? 'ripple-remove' : 'ripple-success'}>
+            <button onClick={inCart ? handleRemoveFromCartClick : handleAddToCartClick} className={'ripple'}>
                 {
                     inCart ?
                         <>

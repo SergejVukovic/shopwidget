@@ -1,4 +1,3 @@
-
 export const ADD_PRODUCT = "ADD_PRODUCT";
 export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 export const REMOVE_PRODUCT = "REMOVE_PRODUCT";
@@ -12,7 +11,11 @@ export const sumItems = (cartItems) => {
     return { itemCount, total }
 }
 
-export const CartReducer = (state, action) => {
+const defaultState = {
+    cartItems : []
+}
+
+const cartReducer = (state = defaultState, action) => {
     switch (action.type) {
         case ADD_PRODUCT: {
             let nextCartItems = [...state.cartItems];
@@ -97,3 +100,5 @@ export const CartReducer = (state, action) => {
 
     }
 }
+
+export default cartReducer;

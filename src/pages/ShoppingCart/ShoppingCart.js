@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useState} from "react";
 import {useHistory} from "react-router-dom";
 
 import ShoppingCartProductList from "../../components/ShoppingCartProductList";
@@ -6,21 +6,19 @@ import BillingInformationForm from "../../components/BillingInformationForm";
 import Paper from "../../components/UI/Paper";
 import Button from "../../components/UI/Button/Button";
 
-import {CartContext} from "../../contexts/Cart/CartContext";
-
 import API from "../../API";
 
 import "./ShoppingCart.style.css";
 import {toast} from "react-hot-toast";
-import {ShopContext} from "../../contexts/Shop/ShopContext";
+import {useDispatch, useSelector} from "react-redux";
+import {clearCart} from "../../store/actions/cart.action";
 
 const ShoppingCart = () => {
 
-    const {cartItems, clearCart, total} = useContext(CartContext);
-    const shop = useContext(ShopContext);
-    const productCurrency = shop?.currency || "$";
+    const { cart: {cartItems, total}, shop} = useSelector((state) => state);
+    const dispatch = useDispatch();
     const history = useHistory()
-
+    const productCurrency = shop?.currency || "$";
     const [showBillingInformation, setShowBillingInformation] = useState(false);
 
     const toggleBillingInformation = () => setShowBillingInformation(!showBillingInformation);
@@ -106,7 +104,7 @@ const ShoppingCart = () => {
         }
 
         toast.dismiss();
-        clearCart();
+        dispatch(clearCart());
         closeShoppingCart();
         toast.success('Narudzba poslana !');
     };
@@ -118,7 +116,7 @@ const ShoppingCart = () => {
                 showBillingInformation ?
                     <BillingInformationForm onSubmit={handleBillingInformationSubmit} />
                     :
-                    <ShoppingCartProductList />
+                    <ShoppingCartProductList cartItems={cartItems} />
             }
             <div className={"total"}>
                 Ukupno : {total} {productCurrency}

@@ -1,29 +1,50 @@
-import React, {useContext} from "react";
-import {useHistory} from "react-router-dom";
+import React from "react";
+import {useHistory, useRouteMatch, useParams, useLocation} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 import ShoppingCartIcon from "../../assets/icons/react-icons/ShoppingCartIcon";
-import {CartContext} from "../../contexts/Cart/CartContext";
-import ItemCounter from "./ItemCounter";
+
+import ListIcon from "../../assets/icons/react-icons/ListIcon";
+// import FilterIcon from "../../assets/icons/react-icons/FilterIcon";
 
 import "./Menu.style.css";
-import SearchIcon from "../../assets/icons/react-icons/SearchIcon";
 
 const Menu = () => {
 
     const history = useHistory()
-    const {cartItems} = useContext(CartContext)
+    const cartTotal = useSelector(state => state.cart.total);
+    const currency = useSelector(state => state.shop.currency);
+    const { url } = useRouteMatch();
+    const {pathname} = useLocation();
+    const {category} = useParams();
+
     const showShoppingCart = () => history.push(`/cart`);
-    const showFilterPage = () => history.push(`/filter`);
+    const showFilterPage = () => {
+        pathname.includes('/menu')
+        ?
+            history.push(`/products/${category || 'all'}`)
+            :
+            history.push(`${url}/menu`);
+    }
 
     return (
         <div className="Menu">
-            <div onClick={showShoppingCart} className={"MenuButton"}>
-                <ItemCounter itemCount={cartItems.length} />
-                <ShoppingCartIcon width={25} height={25} fill={"#333"}  />
+            {/*<div onClick={showFilterPage} className={"MenuButton"} id={"filterButton"}>*/}
+            {/*    <FilterIcon width={25} height={25} />*/}
+            {/*    Filter*/}
+            {/*</div>*/}
+            <div onClick={showFilterPage} className={"MenuButton ripple"} id={"categoryButton"}>
+                <ListIcon width={25} height={25} />
+                Meni
             </div>
-            <div className={"line"} />
-            <div onClick={showFilterPage} className={"MenuButton"}>
-                <SearchIcon width={25} height={25} />
+            <div onClick={showShoppingCart} className={"MenuButton ripple"}>
+                <ShoppingCartIcon width={25} height={25} fill={"#333"}  />
+                {
+                    cartTotal > 0 && currency ?
+                        `${cartTotal} ${currency}`
+                        :
+                        'Korpa'
+                }
             </div>
         </div>
     )

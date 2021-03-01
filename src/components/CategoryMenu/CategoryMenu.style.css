@@ -1,31 +1,95 @@
+
 .CategoryMenu {
-    width: 200px;
     display: none;
 }
+.CategoryMenu.active {
+    display: flex;
+    width: 100%; /* Set the width of the sidebar */
+    z-index: 999; /* Stay on top */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    overflow-y: auto;
+    background-color: #ffffff;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    position: fixed;
+}
+
 .CategoryMenu .CategoryMenuItemContainer {
     background-color: #ffffff;
-    width: 100%;
-    border: 0.1rem solid #ebebeb;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
     padding: 10px;
+    left: 0;
+    top: 35%;
+    z-index: 999;
+    width: 100%;
 }
 
 .CategoryMenu .CategoryMenuItem {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    width: 100%;
-    height: 30px;
-    border-bottom: 1px solid black;
-    font-size: 20px;
-    font-weight: 600;
-    padding-left: 5px;
-    color: #525252e0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+        height: 30px;
+        font-size: 16px;
+        font-weight: 600;
+        padding-left: 5px;
+        color: #525252e0;
+        margin-top: 5px;
 }
 
-.CategoryMenu .CategoryMenuItemContainer :last-child {
-    border-bottom: none;
+.CategoryMenu .CategoryMenuItem.input {
+    margin-bottom: 15px;
+}
+
+.CategoryMenu .CategoryMenuItem.input input {
+    border-bottom: 0.1rem solid #ebebeb;
+}
+
+.CategoryMenu a {
+    text-decoration: none;
+}
+
+.CategoryMenu input {
+    border: 0.1rem solid #ebebeb;
+    margin-left: -10px;
+    height: 30px;
+    width: inherit;
+}
+
+.CategoryMenu .CategoryMenuItem .Button {
+    border: 0.1rem solid #ebebeb;
+}
+
+.CategoryMenu .CategoryMenuItem .Button button {
+    border: none
+}
+
+.CategoryMenu .CategoryMenuItem.categoryButtons {
+    height: 60px;
+    margin-left: 0;
+    padding: 0;
+}
+
+.CategoryMenu .CategoryMenuItem .filterLabel {
+    padding: 7px;
+    background-color: #d40d0db0;
+    border-radius: 100px;
+    color: white;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.CategoryMenuSeparator {
+    background-color: #8080801f;
+    border-radius: 10px;
+    padding: 6px;
+    font-weight: 600;
+    text-align: left;
+    margin-bottom: 15px;
+    margin-top: 15px;
 }
 
 @media only screen and (min-width: 768px) {
@@ -33,7 +97,32 @@
 
     .CategoryMenu {
         display: flex;
+        flex: 1;
+        z-index: 1; /* Stay on top */
+        top: 0; /* Stay at the top */
+        left: 0;
+        overflow-x: hidden; /* Disable horizontal scroll */
+        height: 100%;
         align-items: center;
+    }
 
+    .CategoryMenu .CategoryMenuItemContainer {
+        border: 0.1rem solid #ebebeb;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        width: auto;
+        padding: 10px 20px 10px 10px;
+        border-right: 0.1rem solid #ebebeb;
+    }
+
+    .CategoryMenu .CategoryMenuItem {
+        margin-left: 10px;
+    }
+
+    .CategoryMenu input {
+        border: 0.1rem solid #ebebeb;
+        margin-left: -10px;
+        height: 30px;
+        width: auto;
     }
 }
