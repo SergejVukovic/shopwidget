@@ -122,7 +122,15 @@ const ProductPreview = () => {
                 <Paper className={'ProductPreviewContent'}>
                     <div>
                         <h1>{product.name}</h1>
-                        {product.is_sale ? <SalePrice>{product.sale_price} $</SalePrice>: <h2> {product.price} {productCurrency}</h2> }
+                        {
+                            product.is_sale ?
+                                <>
+                                    <SalePrice>{`${product.price} ${productCurrency}`}</SalePrice>
+                                    <h2>{`${product.sale_price} ${productCurrency}`}</h2>
+                                </>
+                                :
+                                <h2> {product.price} {productCurrency}</h2>
+                        }
                     </div>
                     <div>
                         {product.description}

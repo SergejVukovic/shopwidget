@@ -25,21 +25,25 @@ const ProductCard = ({product}) => {
     const inCart = cartItems.filter(item => item.id === product.id).length > 0;
 
     const handleAddProductClick = () => {
+
         API.shopEvent({
             name: 'add_to_cart',
             category: 'cart',
             additional_data: JSON.stringify(product)
         });
+
         dispatch(addProduct(product))
         toast.success('Proizvod dodan u korpu');
     }
 
     const handleRemoveProductClick = () => {
+
         API.shopEvent({
             name: 'remove_from_cart',
             category: 'cart',
             additional_data: JSON.stringify(product)
         });
+
         dispatch(removeProduct(product));
         toast.success('Proizvod uklonjen iz korpe');
     }
