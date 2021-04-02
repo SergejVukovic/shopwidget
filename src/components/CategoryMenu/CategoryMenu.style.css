@@ -92,6 +92,10 @@
     margin-top: 15px;
 }
 
+.mobile-space {
+    height: 200px;
+}
+
 @media only screen and (min-width: 768px) {
     /* For desktop: */
 
@@ -125,4 +129,9 @@
         height: 30px;
         width: auto;
     }
+
+    .mobile-space {
+        height: auto;
+    }
+
 }

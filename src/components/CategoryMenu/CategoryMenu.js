@@ -77,7 +77,7 @@ const CategoryMenu = () => {
     }
 
   return (
-      <div className={`CategoryMenu ${!isDesktop() && 'active'}`}>
+      <nav className={`CategoryMenu ${!isDesktop() && 'active'}`}>
           <div className={'CategoryMenuItemContainer'}>
               {
                   (Object.keys(filters).length > 0 || currentCategory) &&
@@ -153,9 +153,9 @@ const CategoryMenu = () => {
                       Zatvori
                   </Button>
               </div>
-              <div style={{height: '200px'}} />
+              <div className={'mobile-space'} />
           </div>
-      </div>
+      </nav>
   )
 };
 

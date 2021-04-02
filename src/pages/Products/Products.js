@@ -1,11 +1,13 @@
 import React, {useEffect} from "react";
 import {Route, useRouteMatch, useParams, useLocation} from "react-router-dom";
 import {useSelector, useDispatch} from "react-redux";
+import {Helmet} from "react-helmet";
 
 import ProductCard from "../../components/ProductCard";
 import NoProducts from "../../components/UI/NoProducts";
 import Menu from "../../components/Menu";
 import CategoryMenu from "../../components/CategoryMenu";
+import ThankYouModal from "../../components/ThankYouModal";
 
 import {fetchProducts} from "../../store/actions/products.action";
 import {isDesktop} from "../../utils";
@@ -16,13 +18,14 @@ import Pagination from "../../components/UI/Pagination";
 const Products = () => {
 
     const {data: products, maxPages} = useSelector(state => state.products);
-    const {categories, fetching: isShopFetching} = useSelector(state => state.shop);
+    const {categories, fetching: isShopFetching, name: shopName} = useSelector(state => state.shop);
     const filters = useSelector(state => state.filters);
 
     const {pathname} = useLocation();
     const { category, page: currentPage } = useParams();
     const { path } = useRouteMatch();
     const dispatch = useDispatch();
+    const readableCategory = categories?.filter(cat => cat.url_name === category)[0]?.name;
 
     useEffect(() => {
         if(isShopFetching) return;
@@ -38,6 +41,10 @@ const Products = () => {
 
     return (
         <>
+            <Helmet>
+                <title>{shopName} | {readableCategory || category}</title>
+                <meta name={"og:title"} content={`${shopName} | ${readableCategory || category}`} />
+            </Helmet>
             <Route path={path} component={Menu} />
             {
                 isDesktop() ?
@@ -55,6 +62,7 @@ const Products = () => {
                     }
                 </div>
             )} />
+            <Route path={`${path}/thank-you`} exact component={ThankYouModal} />
             {
                 maxPages > 1 &&
                 <Route path={path} component={() => <> <br/> <Pagination maxPages={maxPages} currentPage={currentPage} /> </>} />

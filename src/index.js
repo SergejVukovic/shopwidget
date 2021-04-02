@@ -12,7 +12,7 @@ import{store, persistor} from "./store";
 import './index.css';
 
 const widgetContainer = document.getElementById('shopping-cart');
-const widgetPaths = ['filter','cart','products', 'all', 'sale', 'menu', 'page'];
+const widgetPaths = ['filter','cart','products', 'all', 'sale', 'menu', 'page', 'thank-you'];
 
 const pathNameArray =  window.location.pathname.split('/');
 

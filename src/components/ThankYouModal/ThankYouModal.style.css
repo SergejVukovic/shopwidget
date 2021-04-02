@@ -1,0 +1,26 @@
+.ThankYouModal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 999;
+    background: white;
+    width: 300px;
+    height: 200px;
+    border: 0.1rem solid #ebebeb;
+    border-radius: 20px;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+#ThankYouText {
+    padding: 20px;
+    width: 100%;
+    padding-top: 0px;
+    font-size: 26px;
+}

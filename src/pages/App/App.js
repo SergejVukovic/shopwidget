@@ -35,7 +35,6 @@ function App() {
             <Switch>
                 <Route path={`/products/:category/page/:page`} component={Products} />
                 <Route path={`/cart`} exact component={ShoppingCart} />
-                {/*<Route path={`/filter`} exact component={() => <Filter setFilters={setFilters} />} />*/}
                 <Route path={`/:product/preview`} exact component={ProductPreview} />
                 <Redirect push to={`/products/${category || 'all'}/page/${page || 1}`} />
             </Switch>

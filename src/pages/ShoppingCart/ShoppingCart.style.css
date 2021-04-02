@@ -31,4 +31,22 @@
     padding: 16px;
     border: 1px solid #ebebeb;
     width: 300px;
+    flex-direction: column;
+}
+
+.ShoppingCart .deliveryType {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ebebeb;
+    width: 300px;
+    padding: 16px;
+}
+
+.ShoppingCart .deliveryType .deliverySelect {
+    width: 300px;
+    padding: 16px;
+    border: 1px solid #ebebeb;
+    margin-top: 16px;
 }

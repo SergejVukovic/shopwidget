@@ -20,10 +20,11 @@ const ShoppingCart = () => {
     const history = useHistory()
     const productCurrency = shop?.currency || "$";
     const [showBillingInformation, setShowBillingInformation] = useState(false);
+    const [selectedDeliveryType, setSelectedDeliveryType] = useState(0);
 
     const toggleBillingInformation = () => setShowBillingInformation(!showBillingInformation);
 
-    const closeShoppingCart = () => {
+    const closeShoppingCart = (event, isOrderDone = false) => {
 
         if(!showBillingInformation && cartItems.length > 0) {
 
@@ -33,7 +34,11 @@ const ShoppingCart = () => {
             });
         }
 
-        history.goBack();
+        isOrderDone ?
+            history.push('/products/all/page/1/thank-you')
+            :
+            history.goBack();
+
     }
 
     const generateProductIds = () => {
@@ -82,14 +87,16 @@ const ShoppingCart = () => {
             return;
         }
 
+        const deliveryTypeId = (shop.delivery_types.length > 0) && !selectedDeliveryType?.id ? shop.delivery_types[0] : selectedDeliveryType
+
         try {
-            toast.loading();
              API.shopRequest('order', {
                 method: 'POST',
                 body: JSON.stringify({
                     ...billingInformation,
                     productIds: generateProductIds(),
-                    productsMeasurements: generateProductsMeasurements()
+                    productsMeasurements: generateProductsMeasurements(),
+                    delivery_type_id: deliveryTypeId?.id || 0
                 })
             }).then((order) => {
                  API.shopEvent({
@@ -97,17 +104,22 @@ const ShoppingCart = () => {
                      category: 'order',
                      additional_data: JSON.stringify(order)
                  });
+                 dispatch(clearCart());
+                 closeShoppingCart({}, true);
              });
         }catch (error) {
             toast.error('Došlo je do greške, molimo pokušajte kasnije.')
-            return;
+            closeShoppingCart();
         }
 
-        toast.dismiss();
-        dispatch(clearCart());
-        closeShoppingCart();
-        toast.success('Narudzba poslana !');
     };
+
+    const handleDeliveryTypeChange = (event) => {
+        const deliveryType = shop.delivery_types.filter(type => type.id === Number(event.target.value))[0];
+        setSelectedDeliveryType(deliveryType);
+    }
+
+    const cartTotalAndShipping = Number(total) + Number((selectedDeliveryType?.price || 0));
 
     return (
         <div className="ShoppingCart">
@@ -118,8 +130,30 @@ const ShoppingCart = () => {
                     :
                     <ShoppingCartProductList cartItems={cartItems} />
             }
+            {
+                (shop.delivery_types.length && !showBillingInformation) &&
+                <div className={'deliveryType'}>
+                    <label>
+                       Odaberite nacin dostave
+                    </label>
+                    <select
+                        name={"delivery type selection"}
+                        onChange={handleDeliveryTypeChange}
+                        value={selectedDeliveryType.id || shop.delivery_types[0].id}
+                        className={'deliverySelect'}
+                    >
+                    {
+                        shop.delivery_types.map((deliveryType) => (
+                            <option key={deliveryType.id} value={deliveryType.id}> {deliveryType.name} </option>
+                            )
+                        )
+                    }
+                    </select>
+                </div>
+            }
             <div className={"total"}>
-                Ukupno : {total} {productCurrency}
+                <span>  Dostava : {selectedDeliveryType.price || 0 } {productCurrency}  </span>
+                <span>  Ukupno : { cartTotalAndShipping } {productCurrency} </span>
             </div>
             <div className={"shoppingCartButtons"}>
                 {
