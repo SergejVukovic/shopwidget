@@ -3,16 +3,19 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .BillingInformationForm .item {
-    width: 300px;
-    padding: 16px;
+    width: 100%;
     border: 0.1rem solid #ebebeb;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     border-bottom: none;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border-right: none;
 }
 
 .BillingInformationForm .item:last-child {
@@ -20,5 +23,24 @@
 }
 
 .BillingInformationForm .item label {
-    margin-right: 16px;
+    margin-left: 16px;
+}
+.BillingInformationForm .item input {
+    height: 30px;
+    border: 0.1rem solid #c1c1c1;
+    margin-right: 26px;
+}
+
+
+@media only screen and (min-width: 768px) {
+    /* For desktop: */
+
+    .BillingInformationForm {
+        margin-top: 0;
+    }
+
+    .BillingInformationForm .item {
+        border-right: 0.1rem solid #ebebeb;
+    }
+
 }

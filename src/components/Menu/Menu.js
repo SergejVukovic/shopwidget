@@ -28,16 +28,16 @@ const Menu = () => {
     }
 
     return (
-        <div className="Menu">
+        <div className="Menu ripple">
             {/*<div onClick={showFilterPage} className={"MenuButton"} id={"filterButton"}>*/}
             {/*    <FilterIcon width={25} height={25} />*/}
             {/*    Filter*/}
             {/*</div>*/}
-            <div onClick={showFilterPage} className={"MenuButton ripple"} id={"categoryButton"}>
+            <div onClick={showFilterPage} className={"MenuButton"} id={"categoryButton"}>
                 <ListIcon width={25} height={25} />
                 Meni
             </div>
-            <div onClick={showShoppingCart} className={"MenuButton ripple"}>
+            <div onClick={showShoppingCart} className={"MenuButton"}>
                 <ShoppingCartIcon width={25} height={25} fill={"#333"}  />
                 {
                     cartTotal > 0 && currency ?

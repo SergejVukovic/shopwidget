@@ -6,7 +6,7 @@ import Select from "../UI/Select/Select";
 import {useDispatch} from "react-redux";
 import {removeProduct, updateProduct} from "../../store/actions/cart.action";
 
-const ShoppingCartProductList = ({cartItems = []}) => {
+const ShoppingCartProductList = ({cartItems = [], currency}) => {
 
     const dispatch = useDispatch();
 
@@ -30,30 +30,34 @@ const ShoppingCartProductList = ({cartItems = []}) => {
     }
 
     return (
-        <div className={"ShoppingCartProductList"}>
+        <div className={'ShoppingCartProductList'}>
             {
                 cartItems.map(product => {
                     return (
-                        <div key={product.id} className={`ShoppingCartProductListItem`}>
+                        <div key={product.id} className={'ShoppingCartProductListItem'}>
                             <div className={'ShoppingCartProductListItemMainPart'}>
                                 <div className={'ShoppingCartProductListProductName'}>
-                                    {product.name}
+                                    <img alt={product.name} src={product?.images.filter(image => image.is_main)[0].image_url} width={100} height={100} />
+                                    <div>
+                                        <p>{product.name}</p>
+                                        <p>{product.is_sale ? product.sale_price : product.price} {currency}</p>
+                                    </div>
                                 </div>
-                                <div className={"ShoppingCartProductListButtons"}>
+                                <div className={'ShoppingCartProductListButtons'}>
                                     <QuantityControl
                                         quantity={product.quantity}
                                         onChange={(quantity) => handleQuantityChange(product, quantity)}
-                                        min={0}
                                         showLabel={false}
+                                        min={0}
                                     />
+                                    {
+                                        product?.measurements?.length > 0 &&
+                                        <Select value={product?.selectedMeasurement?.id} onChange={(event) => handleMeasurementChange(event, product)}>
+                                            {product.measurements.map(measurement => <option value={measurement.id} key={measurement.id}>{measurement.unit}</option>)}
+                                        </Select>
+                                    }
                                 </div>
                             </div>
-                            {
-                                product?.measurements?.length > 0 &&
-                                <Select value={product?.selectedMeasurement?.id} onChange={(event) => handleMeasurementChange(event, product)}>
-                                    {product.measurements.map(measurement => <option value={measurement.id} key={measurement.id}>{measurement.unit}</option>)}
-                                </Select>
-                            }
                         </div>
                     )
                 })

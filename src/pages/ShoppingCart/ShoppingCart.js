@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 
 import ShoppingCartProductList from "../../components/ShoppingCartProductList";
@@ -21,6 +21,14 @@ const ShoppingCart = () => {
     const productCurrency = shop?.currency || "$";
     const [showBillingInformation, setShowBillingInformation] = useState(false);
     const [selectedDeliveryType, setSelectedDeliveryType] = useState(0);
+
+    useEffect(() => {
+        const hiddenState = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = hiddenState;
+        }
+    }, [])
 
     const toggleBillingInformation = () => setShowBillingInformation(!showBillingInformation);
 
@@ -123,52 +131,57 @@ const ShoppingCart = () => {
 
     return (
         <div className="ShoppingCart">
-            <Paper>
-            {
-                showBillingInformation ?
-                    <BillingInformationForm onSubmit={handleBillingInformationSubmit} />
-                    :
-                    <ShoppingCartProductList cartItems={cartItems} />
-            }
-            {
-                (shop.delivery_types.length && !showBillingInformation) &&
-                <div className={'deliveryType'}>
-                    <label>
-                       Odaberite nacin dostave
-                    </label>
-                    <select
-                        name={"delivery type selection"}
-                        onChange={handleDeliveryTypeChange}
-                        value={selectedDeliveryType.id || shop.delivery_types[0].id}
-                        className={'deliverySelect'}
-                    >
-                    {
-                        shop.delivery_types.map((deliveryType) => (
-                            <option key={deliveryType.id} value={deliveryType.id}> {deliveryType.name} </option>
-                            )
-                        )
-                    }
-                    </select>
-                </div>
-            }
-            <div className={"total"}>
-                <span>  Dostava : {selectedDeliveryType.price || 0 } {productCurrency}  </span>
-                <span>  Ukupno : { cartTotalAndShipping } {productCurrency} </span>
-            </div>
-            <div className={"shoppingCartButtons"}>
+            <Paper className="content">
                 {
                     showBillingInformation ?
-                        <>
-                            <Button type="submit" form={"billingInformationForm"}> Potvrdi Narudzbu </Button>
-                            <Button onClick={toggleBillingInformation}>Nazad</Button>
-                        </>
+                        <BillingInformationForm onSubmit={handleBillingInformationSubmit} />
                         :
-                        <>
-                            <Button onClick={toggleBillingInformation}>Dalje</Button>
-                            <Button onClick={closeShoppingCart}>Zatvori</Button>
-                        </>
+                        <ShoppingCartProductList cartItems={cartItems} currency={productCurrency}/>
                 }
-            </div>
+                {
+                    (shop.delivery_types.length && showBillingInformation) &&
+                    <div className={'deliveryType'}>
+                        <label>
+                            Odaberite nacin dostave
+                        </label>
+                        <select
+                            name={"delivery type selection"}
+                            onChange={handleDeliveryTypeChange}
+                            value={selectedDeliveryType.id || shop.delivery_types[0].id}
+                            className={'deliverySelect'}
+                        >
+                            {
+                                shop.delivery_types.map((deliveryType) => (
+                                        <option key={deliveryType.id} value={deliveryType.id}> {deliveryType.name} </option>
+                                    )
+                                )
+                            }
+                        </select>
+                    </div>
+                }
+            </Paper>
+            <Paper className="navigationButtons">
+                <div className={"total"}>
+                    {
+                        showBillingInformation &&
+                            <span>  Dostava : {selectedDeliveryType.price || 0 } {productCurrency}  </span>
+                    }
+                    <span>  Ukupno : { cartTotalAndShipping } {productCurrency} </span>
+                </div>
+                <div className={"shoppingCartButtons"}>
+                    {
+                        showBillingInformation ?
+                            <>
+                                <Button type="submit" form={"billingInformationForm"}> Potvrdi Narudzbu </Button>
+                                <Button onClick={toggleBillingInformation}>Nazad</Button>
+                            </>
+                            :
+                            <>
+                                <Button onClick={toggleBillingInformation}>Dalje</Button>
+                                <Button onClick={closeShoppingCart}>Zatvori</Button>
+                            </>
+                    }
+                </div>
             </Paper>
         </div>
     )

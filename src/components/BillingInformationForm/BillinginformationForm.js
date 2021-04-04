@@ -19,13 +19,13 @@ const BillingInformationForm = ({onSubmit}) => {
         <form onSubmit={handleBillingInformationSubmit} id={"billingInformationForm"} className={"BillingInformationForm"}>
             <div className={"item"}>
                 <label htmlFor={"name"}>
-                    Name:
+                    Ime i Prezime:
                 </label>
                 <input id={"name"} name={"name"} type={"text"} placeholder={"John Doe"}  required/>
             </div>
             <div className={"item"}>
                 <label htmlFor={"address"}>
-                    Address:
+                    Adresa:
                 </label>
                 <input id={"address"} name={"address"} type={"address"} placeholder={"New York"} required/>
             </div>
@@ -37,7 +37,7 @@ const BillingInformationForm = ({onSubmit}) => {
             </div>
             <div className={"item"}>
                 <label htmlFor={"phone"}>
-                    Phone:
+                    Telefon:
                 </label>
                 <input id={"phone"} name={"phone"} type={"phone"} placeholder={"387 66 323 23 543"}  required/>
             </div>
