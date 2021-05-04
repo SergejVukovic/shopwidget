@@ -35,6 +35,16 @@ const CategoryMenu = () => {
 
     }, [category, setCurrentCategory, categories]);
 
+    useEffect(() => {
+        const hiddenState = document.body.style.overflow;
+        if(!isDesktop()) {
+            document.body.style.overflow = 'hidden';
+        }
+        return () => {
+            document.body.style.overflow = hiddenState;
+        }
+    }, [])
+
     const handleFilterChange = (event) => {
         switch (event.target.name) {
             case "productName":
@@ -77,7 +87,7 @@ const CategoryMenu = () => {
     }
 
   return (
-      <nav className={`CategoryMenu ${!isDesktop() && 'active'}`}>
+      <nav className={`CategoryMenu ${!isDesktop() ? 'active' : undefined}`}>
           <div className={'CategoryMenuItemContainer'}>
               {
                   (Object.keys(filters).length > 0 || currentCategory) &&
@@ -149,7 +159,7 @@ const CategoryMenu = () => {
                   <Button onClick={handleFilterSubmit}>
                       Pretraži
                   </Button>
-                  <Button onClick={handleClose} className={isDesktop() && 'hide'}>
+                  <Button onClick={handleClose} className={isDesktop() ? 'hide' : undefined}>
                       Zatvori
                   </Button>
               </div>

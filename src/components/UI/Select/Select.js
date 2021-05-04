@@ -3,7 +3,7 @@ import './Select.style.css';
 
 const Select = ({children, className, ...props}) => {
     return (
-        <select {...props} className={`Select ${className && className}`}>
+        <select {...props} className={`Select ${className ? className : undefined}`}>
             {children}
         </select>
     )

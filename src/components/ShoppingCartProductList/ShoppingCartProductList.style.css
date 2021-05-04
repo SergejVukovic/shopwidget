@@ -8,6 +8,10 @@
     height: calc(100vh - 170px);
 }
 
+.ShoppingCartProductListItem:last-child {
+    border-bottom: 1px solid #ebebeb;
+}
+
 .ShoppingCartProductListItem {
     display: flex;
     align-items: center;

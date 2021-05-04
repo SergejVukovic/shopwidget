@@ -29,6 +29,15 @@ const ShoppingCartProductList = ({cartItems = [], currency}) => {
         );
     }
 
+    const handleVariationChange = (event, product) => {
+        dispatch(
+            updateProduct({
+                ...product,
+                selectedVariation: product.variations.filter(variation => variation.id === Number(event.target.value))[0]
+            })
+        );
+    }
+
     return (
         <div className={'ShoppingCartProductList'}>
             {
@@ -54,6 +63,12 @@ const ShoppingCartProductList = ({cartItems = [], currency}) => {
                                         product?.measurements?.length > 0 &&
                                         <Select value={product?.selectedMeasurement?.id} onChange={(event) => handleMeasurementChange(event, product)}>
                                             {product.measurements.map(measurement => <option value={measurement.id} key={measurement.id}>{measurement.unit}</option>)}
+                                        </Select>
+                                    }
+                                    {
+                                        product?.variations?.length > 0 &&
+                                        <Select value={product?.selectedVariation?.id} onChange={(event) => handleVariationChange(event, product)}>
+                                            {product.variations.map(variation => <option value={variation.id} key={variation.id}>{variation.name}</option>)}
                                         </Select>
                                     }
                                 </div>

@@ -65,6 +65,7 @@ const ShoppingCart = () => {
 
     const generateProductsMeasurements = () => {
         const productMeasurements = [];
+
         cartItems.forEach(item => {
 
             const measurement = item.selectedMeasurement ? item.selectedMeasurement : item?.measurements[0]
@@ -88,6 +89,32 @@ const ShoppingCart = () => {
         return productMeasurements;
     }
 
+    const generateProductVariations = () => {
+        const productVariations = [];
+
+        cartItems.forEach(item => {
+
+            const variation = item.selectedVariation ? item.selectedVariation : item?.variations[0]
+
+            if(!variation) return;
+
+            if(item.quantity > 1) {
+                for (let i = 0; i < item.quantity; i++) {
+                    productVariations.push({
+                        productId: item.id,
+                        variationId: variation.id
+                    });
+                }
+            }else{
+                productVariations.push({
+                    productId: item.id,
+                    variationId: variation.id
+                });
+            }
+        });
+        return productVariations;
+    }
+
     const handleBillingInformationSubmit = async (billingInformation) => {
 
         if(cartItems.length <= 0) {
@@ -104,6 +131,7 @@ const ShoppingCart = () => {
                     ...billingInformation,
                     productIds: generateProductIds(),
                     productsMeasurements: generateProductsMeasurements(),
+                    productsVariations: generateProductVariations(),
                     delivery_type_id: deliveryTypeId?.id || 0
                 })
             }).then((order) => {

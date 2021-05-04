@@ -34,6 +34,8 @@ const ProductPreview = () => {
     const [product, setProduct] = useState(passedProduct || null);
     const [quantity, setQuantity] = useState(inCartProduct?.quantity || 1);
     const [selectedMeasurement, setSelectedMeasurement] = useState(product?.measurements ? product.measurements[0] : 0);
+    const [selectedVariation, setSelectedVariation] = useState(product?.variations ? product.variations[0] : 0);
+    const [isInCart, setIsInCart] = useState(false);
 
     useEffect(() => {
         if(!passedProduct && !product) {
@@ -52,11 +54,10 @@ const ProductPreview = () => {
         document.body.style.overflow = 'hidden';
 
         return () => {
-            document.head.querySelectorAll('[data-react-helmet=true]')
-                .forEach(element => element.remove());
             document.title = document.title.split('|')[0];
             document.body.style.overflow = hiddenState;
         }
+
     }, [])
 
     const handleQuantityChange = (quantity) => {
@@ -72,10 +73,12 @@ const ProductPreview = () => {
     }
 
     const handleAddToCart = () => {
+
         const nextProduct = {
             ...product,
             quantity,
-            selectedMeasurement
+            selectedMeasurement,
+            selectedVariation
         }
 
         cartItems.filter(item => item.id === product.id).length > 0 ?
@@ -89,6 +92,7 @@ const ProductPreview = () => {
             additional_data: JSON.stringify(product)
         });
 
+        setIsInCart(true);
         toast.success('Proizvod dodan u korpu')
     };
     const handleCancel = () => history.push('/');
@@ -103,7 +107,20 @@ const ProductPreview = () => {
     }
     const handleMeasurement = (event) => {
         setSelectedMeasurement(product.measurements.filter(measurement => measurement.id === Number(event.target.value))[0]);
+
+        if(isInCart) {
+            handleAddToCart();
+        }
     }
+
+    const handleVariation = (event) => {
+        setSelectedVariation(product.variations.filter(variation => variation.id === Number(event.target.value))[0]);
+
+        if(isInCart) {
+            handleAddToCart();
+        }
+    }
+
     const inCart = cartItems.filter(item => item.id === product.id).length > 0;
 
     if(!product?.name) {
@@ -116,6 +133,7 @@ const ProductPreview = () => {
                 <title>{document.title} | {product.name}</title>
                 <meta name={"og:title"} content={`${shop.name} | ${product.name}`} />
                 <meta name={"description"} content={product.description} />
+                <meta property="og:image" content={product.images[0]?.image_url} />
             </Helmet>
             <div className={"ProductPreview"}>
                 <ImageGallery images={product.images} productName={product.name} />
@@ -140,6 +158,12 @@ const ProductPreview = () => {
                         product?.measurements?.length > 0 &&
                         <Select value={selectedMeasurement?.id} onChange={handleMeasurement}>
                             {product.measurements.map(measurement => <option value={measurement.id} key={measurement.id}>{measurement.unit}</option>)}
+                        </Select>
+                    }
+                    {
+                        product?.variations?.length > 0 &&
+                        <Select value={selectedVariation?.id} onChange={handleVariation}>
+                            {product.variations.map(variation => <option value={variation.id} key={variation.id}>{variation.name}</option>)}
                         </Select>
                     }
                     <div>
