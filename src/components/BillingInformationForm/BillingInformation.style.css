@@ -8,14 +8,12 @@
 
 .BillingInformationForm .item {
     width: 100%;
-    border: 0.1rem solid #ebebeb;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: none;
+    border-bottom: 0.1rem solid #ebebeb;
     padding-top: 16px;
     padding-bottom: 16px;
-    border-right: none;
 }
 
 .BillingInformationForm .item:last-child {

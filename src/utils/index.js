@@ -7,3 +7,12 @@ export function isDesktop () {
 
     return windowWidth > 768; //returns true for widths larger than 768 pixels
 }
+
+export function desktopStyle (style) {
+    return `
+        @media only screen and (min-width: 768px) {
+          /* For desktop: */
+          ${style}
+        }
+    `
+};

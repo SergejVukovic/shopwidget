@@ -106,7 +106,6 @@
         top: 0; /* Stay at the top */
         left: 0;
         overflow-x: hidden; /* Disable horizontal scroll */
-        height: 100%;
         align-items: center;
     }
 

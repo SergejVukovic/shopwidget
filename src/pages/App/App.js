@@ -1,17 +1,25 @@
 import React, {useEffect} from "react";
 import {Route, Switch, Redirect, useParams} from 'react-router-dom';
-import {Toaster} from "react-hot-toast";
 import {useDispatch} from "react-redux";
+import styled from "styled-components";
 
 import Products from "../Products";
-import ShoppingCart from "../ShoppingCart/ShoppingCart";
 import ProductPreview from "../ProductPreview";
 // import Filter from "../Filter/Filter";
 
 import API from "../../API";
 import {fetchShop} from "../../store/actions/shop.action";
 
-import './App.css';
+const AppContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  flex-wrap: wrap;
+  width: 100%;
+  height:auto;
+  padding-top: 32px;
+  padding-bottom: 32px;
+`;
 
 function App() {
 
@@ -30,15 +38,13 @@ function App() {
     }, [dispatch]);
 
     return (
-        <div className="App">
-            <Toaster />
+        <AppContainer>
             <Switch>
                 <Route path={`/products/:category/page/:page`} component={Products} />
-                <Route path={`/cart`} exact component={ShoppingCart} />
                 <Route path={`/:product/preview`} exact component={ProductPreview} />
                 <Redirect push to={`/products/${category || 'all'}/page/${page || 1}`} />
             </Switch>
-        </div>
+        </AppContainer>
       );
 }
 

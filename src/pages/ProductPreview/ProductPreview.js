@@ -130,7 +130,7 @@ const ProductPreview = () => {
     return (
         <>
             <Helmet>
-                <title>{document.title} | {product.name}</title>
+                <title>{` ${document.title} | ${product.name} `}</title>
                 <meta name={"og:title"} content={`${shop.name} | ${product.name}`} />
                 <meta name={"description"} content={product.description} />
                 <meta property="og:image" content={product.images[0]?.image_url} />

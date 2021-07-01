@@ -10,6 +10,7 @@ import API from "./API";
 import{store, persistor} from "./store";
 
 import './index.css';
+import {Toaster} from "react-hot-toast";
 
 const widgetContainer = document.getElementById('shopping-cart');
 const widgetPaths = ['filter','cart','products', 'all', 'sale', 'menu', 'page', 'thank-you'];
@@ -48,6 +49,7 @@ ReactDOM.render(
   <React.StrictMode>
       <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
+              <Toaster />
               <BrowserRouter basename={basename}>
                   <App />
               </BrowserRouter>

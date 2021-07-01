@@ -2,6 +2,7 @@ import React from "react";
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {toast} from "react-hot-toast";
+import styled from "styled-components";
 
 import ProductCardFooter from "./ProductCardFooter";
 import Paper from "../UI/Paper";
@@ -9,7 +10,26 @@ import Paper from "../UI/Paper";
 import API from "../../API";
 import {addProduct, removeProduct} from "../../store/actions/cart.action";
 
-import './ProductCard.style.css';
+const ProductCardContainer = styled(Paper)`
+    flex-grow: 1;
+    max-width: 300px;
+    margin-bottom: 20px;
+    margin-right: 10px;
+`;
+
+const ProductCardImageContainer = styled.div `
+    width: 300px;
+    height: 300px;
+    background-color: #E5E5E5;
+    :hover {
+         cursor: pointer;
+    }
+    img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+    }
+`;
 
 const ProductCard = ({product}) => {
 
@@ -51,12 +71,12 @@ const ProductCard = ({product}) => {
     const handlePreviewClick = () => history.push(`/${url_name ? url_name : name}/preview`, {product});
 
     return (
-        <Paper className="ProductCard">
-            <div className={"imageContainer"} onClick={handlePreviewClick}>
+        <ProductCardContainer>
+            <ProductCardImageContainer onClick={handlePreviewClick}>
                 <img loading={"lazy"} width="300px" height="300px" alt={name} src={mainImage ?
                     mainImage.image_url : `https://via.placeholder.com/300?text=${encodeURI(name)}`}
                 />
-            </div>
+            </ProductCardImageContainer>
             <ProductCardFooter
                 product={product}
                 inCart={inCart}
@@ -64,7 +84,7 @@ const ProductCard = ({product}) => {
                 onRemoveProductClick={handleRemoveProductClick}
                 onTitleClick={handlePreviewClick}
             />
-        </Paper>
+        </ProductCardContainer>
     )
 }
 

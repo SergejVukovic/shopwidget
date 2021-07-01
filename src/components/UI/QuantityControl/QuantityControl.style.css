@@ -7,10 +7,10 @@
     margin-top: 32px;
 }
 
-.QuantityControl .Button {
-   border-right: 0.1rem solid #ebebeb !important;
-    width: 50px;
-}
+/*.QuantityControl .Button {*/
+/*   border-right: 0.1rem solid #ebebeb !important;*/
+/*   width: 50px;*/
+/*}*/
 
 .QuantityControlAmount {
     width: 50px;

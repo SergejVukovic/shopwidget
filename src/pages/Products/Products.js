@@ -1,7 +1,8 @@
 import React, {useEffect} from "react";
-import {Route, useRouteMatch, useParams, useLocation} from "react-router-dom";
+import {Route, useRouteMatch, useParams} from "react-router-dom";
 import {useSelector, useDispatch} from "react-redux";
 import {Helmet} from "react-helmet";
+import styled from 'styled-components';
 
 import ProductCard from "../../components/ProductCard";
 import NoProducts from "../../components/UI/NoProducts";
@@ -10,10 +11,30 @@ import CategoryMenu from "../../components/CategoryMenu";
 import ThankYouModal from "../../components/ThankYouModal";
 
 import {fetchProducts} from "../../store/actions/products.action";
-import {isDesktop} from "../../utils";
+import {desktopStyle, isDesktop} from "../../utils";
 
-import "./Products.style.css";
 import Pagination from "../../components/UI/Pagination";
+import ShoppingCart from "../ShoppingCart";
+
+const ProductContainer = styled.div`
+
+    display: ${props => props.hidden ? 'none' : 'flex'};
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 16px 16px 100px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    
+    ${desktopStyle(
+        `  
+            justify-content: space-evenly;
+            flex-direction: row;
+            padding-bottom: 0;
+            flex: 1 0 70%;
+        `
+    )}
+`;
 
 const Products = () => {
 
@@ -21,7 +42,7 @@ const Products = () => {
     const {categories, fetching: isShopFetching, name: shopName} = useSelector(state => state.shop);
     const filters = useSelector(state => state.filters);
 
-    const {pathname} = useLocation();
+    // const {pathname} = useLocation();
     const { category, page: currentPage } = useParams();
     const { path } = useRouteMatch();
     const dispatch = useDispatch();
@@ -42,7 +63,7 @@ const Products = () => {
     return (
         <>
             <Helmet>
-                <title>{shopName} | {readableCategory || category}</title>
+                <title>{ `${shopName} | ${readableCategory || category}` }</title>
                 <meta name={"og:title"} content={`${shopName} | ${readableCategory || category}`} />
             </Helmet>
             <Route path={path} component={Menu} />
@@ -53,20 +74,21 @@ const Products = () => {
                     <Route path={`${path}/menu`} component={CategoryMenu} />
             }
             <Route path={path} render={() => (
-                <div className={`Products ${pathname.includes('menu') ? 'hide' : ''}`}>
+                <ProductContainer>
                     {
                         products.length === 0 ?
                             <NoProducts/>
                             :
-                            products.map((product) => <ProductCard key={product.id} product={{...product}} /> )
+                            products.map((product) => <ProductCard key={product.id} product={product} /> )
                     }
-                </div>
+                </ProductContainer>
             )} />
             <Route path={`${path}/thank-you`} exact component={ThankYouModal} />
             {
                 maxPages > 1 &&
                 <Route path={path} component={() => <> <br/> <Pagination maxPages={maxPages} currentPage={currentPage} /> </>} />
             }
+            <Route path={`${path}/cart`} exact component={ShoppingCart} />
         </>
     )
 }
