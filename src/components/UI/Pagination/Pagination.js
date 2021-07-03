@@ -22,8 +22,11 @@ const Pagination = ({currentPage = 1, maxPages = 0}) => {
     const generatePageButtons = () => {
 
         let pagesArray = [];
-        let counter = currentPage + 3 >= maxPages ? currentPage - 3 : currentPage;
+        let counter = currentPage + 3 >= maxPages ? maxPages - 3 : currentPage;
+
         counter = counter <= 0 ? 1 : counter;
+
+        console.log(counter);
 
         for(let i = counter;i < maxPages; i++) {
             pagesArray.push(i);
@@ -32,6 +35,8 @@ const Pagination = ({currentPage = 1, maxPages = 0}) => {
         if(isEnd) {
             pagesArray[0] = 1;
         }
+
+        console.log(pagesArray);
 
         return pagesArray;
     }

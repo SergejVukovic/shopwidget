@@ -25,7 +25,7 @@ const CategoryMenuNav = styled.nav`
     left: 0;
     right: 0;
     margin: auto;
-    
+
     ${desktopStyle(
         `
             height: auto;
@@ -37,18 +37,18 @@ const CategoryMenuNav = styled.nav`
             bottom: 0;
             text-align: left;
             margin-top: 0;
-        `    
+        `
     )}
 `;
 
 const NavigationLink = styled(NavLink)`
-    padding: 20px 0 20px 0;
+    padding: 7px 0;
+    align-items: center;
     text-decoration: none;
     color: grey;
     border-bottom: 0.1rem solid #ebebeb;
     border-radius: 30px;
     width: 100%;
-    font-size: 20px;
     svg {
       display: none;
     }

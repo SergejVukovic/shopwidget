@@ -16,6 +16,21 @@
     right: 0;
 }
 
+.ProductPreviewMenu {
+    display: flex;
+    flex: 100%;
+    padding: 1rem;
+}
+
+.BackButton{
+    border: 1px solid;
+    width: 19rem;
+}
+
+.ButtonWrapperBack{
+    margin-left: 9%;
+}
+
 .ProductPreviewContent {
     padding: 32px;
     width: 100%;
@@ -26,15 +41,47 @@
     margin-right: 16px;
 }
 
+.ButtonAddToCart{
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    border: 1px solid;
+}
+
+.ProductDesc{
+    margin: 5px;
+}
+
+.ProductMeasurments{
+    margin: 5px;
+    width: 97%;
+}
+
+.ProductPrice{
+    color: #019e7f
+}
+
+
+
 @media only screen and (min-width: 768px) {
     /* For desktop: */
-
     .ProductPreviewContent {
         text-align: left;
         max-width: 500px;
     }
+
     .ProductPreview {
         justify-content: space-around;
     }
+    .ProductPreviewBackButton{
+        margin-left: 130px;
+    }
 
+    .ButtonWrapperBack{
+        margin-left: 130px;
+    }
+
+    .BackButton{
+        width: 24rem;
+    }
 }

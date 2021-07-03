@@ -107,7 +107,7 @@ const ShoppingCartProductList = ({cartItems = [], currency}) => {
                                         vertical={true}
                                         secondaryBackground={true}
                                     />
-                                    <img alt={product.name} src={product?.images.filter(image => image.is_main)[0].image_url} width={100} height={100} />
+                                    <img alt={product.name} src={product?.images.filter(image => image.is_main)[0]?.image_url} width={100} height={100} />
                                     <div style={{flex: "0 0 20%"}}>
                                         <p>{product.name}</p>
                                         <p style={{fontWeight: 600}}>{product.is_sale ? product.sale_price : product.price} {currency}</p>
