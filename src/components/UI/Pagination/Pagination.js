@@ -26,8 +26,6 @@ const Pagination = ({currentPage = 1, maxPages = 0}) => {
 
         counter = counter <= 0 ? 1 : counter;
 
-        console.log(counter);
-
         for(let i = counter;i < maxPages; i++) {
             pagesArray.push(i);
         }
@@ -35,8 +33,6 @@ const Pagination = ({currentPage = 1, maxPages = 0}) => {
         if(isEnd) {
             pagesArray[0] = 1;
         }
-
-        console.log(pagesArray);
 
         return pagesArray;
     }

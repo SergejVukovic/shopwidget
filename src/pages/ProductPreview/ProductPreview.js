@@ -3,11 +3,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useHistory, useParams} from 'react-router-dom';
 import {toast} from 'react-hot-toast';
 import {Helmet} from 'react-helmet';
+import styled from 'styled-components';
 
 import ImageGallery from '../../components/ImageGallery';
 import SalePrice from '../../components/UI/SalePrice';
 import QuantityControl from '../../components/UI/QuantityControl';
-import Button from '../../components/UI/Button';
 import Select from '../../components/UI/Select/Select';
 
 import AddToShoppingCartIcon from '../../assets/icons/react-icons/AddToShoppingCartIcon';
@@ -23,6 +23,59 @@ import {
 
 import './ProductPreview.style.css';
 import BackIcon from '../../assets/icons/react-icons/BackIcon';
+
+const ProductPreviewContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: fixed;
+    z-index: 9990;
+    background-color: #ffffff;
+    left: 0;
+    bottom: 0;
+    right: 0;
+`;
+
+const BottomNavBar = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    bottom: 10px;
+    height: 50px;
+    width: calc(100% - 20px);
+    background-color: #019e7f;
+    position: fixed;
+    z-index: 999;
+    border-radius: 32px;
+`;
+
+const NavBarButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #019e7f;
+  border: none;
+  color: #fff;
+  margin-left: 4px;
+  border-radius: 32px;
+  padding: 8px;
+`;
+
+const NavBarCartButton = styled(NavBarButton)`
+  background-color: #fff;
+  color: #019e7f;
+  font-weight: 600;
+  margin-right: 4px;
+  svg {
+    fill: #019e7f;
+    margin-right: 6px;
+  }
+`;
 
 const ProductPreview = () => {
   const history = useHistory();
@@ -152,14 +205,7 @@ const ProductPreview = () => {
         <meta name={'description'} content={product.description} />
         <meta property="og:image" content={product.images[0]?.image_url} />
       </Helmet>
-      <div className={'ProductPreview'}>
-        <div className={'ProductPreviewMenu'}>
-          <div className={'ButtonWrapperBack'}>
-            <Button onClick={handleCancel} className={'BackButton'}>
-              <BackIcon width="24px" /> Nazad
-            </Button>
-          </div>
-        </div>
+      <ProductPreviewContainer>
         <ImageGallery images={product.images} productName={product.name} />
         <Paper className={'ProductPreviewContent'}>
           <div>
@@ -207,24 +253,26 @@ const ProductPreview = () => {
               ))}
             </Select>
           )}
-          <div className={'ButtonAddToCart'}>
-            <Button onClick={inCart ? handleRemove : handleAddToCart}>
-              {inCart ? (
+        </Paper>
+        <BottomNavBar>
+          <NavBarButton onClick={handleCancel}>
+            <BackIcon width={30} height={30} fill="#fff" />
+          </NavBarButton>
+          <NavBarCartButton onClick={inCart ? handleRemove : handleAddToCart} >
+            {inCart ? (
                 <>
                   <AddedToShoppingCartIcon width={25} height={25} />
                   UKLONI IZ KORPE
                 </>
-              ) : (
+            ) : (
                 <>
                   <AddToShoppingCartIcon width={25} height={25} />
                   DODAJ U KORPU
                 </>
-              )}
-            </Button>
-            {/* <Button onClick={handleCancel}>Nazad</Button> */}
-          </div>
-        </Paper>
-      </div>
+            )}
+          </NavBarCartButton>
+        </BottomNavBar>
+      </ProductPreviewContainer>
     </>
   );
 };
