@@ -9,7 +9,7 @@ import RightArrowIcon from "../../assets/icons/react-icons/RightArrowIcon";
 const CategoryMenuNav = styled.nav`
     display: flex;
     flex-direction: column;
-    max-height: 200px;
+    max-height: 300px;
     height: ${props => props.mounted ? '100%' : 0};
     width: calc(100% - 20px); /* Set the width of the sidebar */
     z-index: 998; /* Stay on top */

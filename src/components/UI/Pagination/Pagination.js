@@ -49,7 +49,7 @@ const Pagination = ({currentPage = 1, maxPages = 0}) => {
                             return (
                                 <Fragment key={number}>
                                     <Link to={`/products/${category}/page/${number}`}>
-                                        <Button className={"ripple"}>
+                                        <Button className={"ripple"} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%'}}>
                                             {number}
                                         </Button>
                                     </Link>
@@ -62,7 +62,7 @@ const Pagination = ({currentPage = 1, maxPages = 0}) => {
 
                         return (
                             <Link to={`/products/${category}/page/${number}`} key={number}>
-                                <Button key={number} className={"ripple"}>
+                                <Button key={number} className={"ripple"} style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                                     {number}
                                 </Button>
                             </Link>

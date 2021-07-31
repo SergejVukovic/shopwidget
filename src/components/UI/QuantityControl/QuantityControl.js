@@ -25,7 +25,7 @@ const QuantityControlContainer = styled.div`
   outline: none;
   animation: fadeInTransition linear 1s;
   justify-content: space-evenly;
-
+  border-radius: 32px;
   ${(props) =>
     props.vertical &&
     `

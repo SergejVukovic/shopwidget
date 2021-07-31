@@ -8,10 +8,16 @@ const devtools = process.env.NODE_ENV === 'production'
     : window.__REDUX_DEVTOOLS_EXTENSION__
     && window.__REDUX_DEVTOOLS_EXTENSION__();
 /* eslint-enable no-underscore-dangle */
-let store = createStore(persistedReducer, compose(
-    applyMiddleware(thunk),
-    devtools
-));
+
+let store = devtools ?
+    createStore(persistedReducer, compose(
+        applyMiddleware(thunk),
+        devtools
+    ))
+    :
+    createStore(persistedReducer, compose(
+        applyMiddleware(thunk)
+    ));
 
 let persistor = persistStore(store);
 

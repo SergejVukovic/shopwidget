@@ -6,6 +6,9 @@ const Select = styled.select`
     color: #fff;
     border: none;
     font-weight: 600;
+    width: 90%;
+    border-radius: 32px;
+    padding: 8px;
     @media (min-width: 992px) {
         width: 40%;
     }

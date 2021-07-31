@@ -23,6 +23,7 @@ import {
 
 import './ProductPreview.style.css';
 import BackIcon from '../../assets/icons/react-icons/BackIcon';
+import {desktopStyle} from "../../utils";
 
 const ProductPreviewContainer = styled.div`
     display: flex;
@@ -52,6 +53,10 @@ const BottomNavBar = styled.div`
     position: fixed;
     z-index: 999;
     border-radius: 32px;
+    ${desktopStyle(`
+        width: 100%;
+        max-width: 700px;
+    `)}
 `;
 
 const NavBarButton = styled.button`
@@ -68,11 +73,11 @@ const NavBarButton = styled.button`
 
 const NavBarCartButton = styled(NavBarButton)`
   background-color: #fff;
-  color: #019e7f;
+  color: #000000;
   font-weight: 600;
   margin-right: 4px;
   svg {
-    fill: #019e7f;
+    fill: ${props => props.inCart ? '#019e7f' : '#000000'};
     margin-right: 6px;
   }
 `;
@@ -89,7 +94,7 @@ const ProductPreview = () => {
   const productCurrency = shop?.currency || '$';
   const passedProduct = history?.location?.state?.product;
   const inCartProduct = cartItems.filter(
-    (item) => item.id === passedProduct.id
+    (item) => item.id === passedProduct?.id
   )[0];
 
   const [product, setProduct] = useState(passedProduct || null);
@@ -191,7 +196,7 @@ const ProductPreview = () => {
     }
   };
 
-  const inCart = cartItems.filter((item) => item.id === product.id).length > 0;
+  const inCart = cartItems.filter((item) => item.id === product?.id).length > 0;
 
   if (!product?.name) {
     return null;
@@ -221,15 +226,17 @@ const ProductPreview = () => {
               </h2>
             )}
           </div>
-          <div className={'ProductDesc'}>{product.description}</div>
+          <div className={'ProductDesc'} dangerouslySetInnerHTML={{
+            __html: product.description
+          }} />
           <QuantityControl
+            showLabel={false}
             quantity={quantity}
             onChange={handleQuantityChange}
             min={1}
           />
           {product?.measurements?.length > 0 && (
             <Select
-              className={'ProductMeasurments'}
               value={selectedMeasurement?.id}
               onChange={handleMeasurement}
             >
@@ -242,7 +249,6 @@ const ProductPreview = () => {
           )}
           {product?.variations?.length > 0 && (
             <Select
-              className={'ProductMeasurments'}
               value={selectedVariation?.id}
               onChange={handleVariation}
             >
@@ -258,7 +264,7 @@ const ProductPreview = () => {
           <NavBarButton onClick={handleCancel}>
             <BackIcon width={30} height={30} fill="#fff" />
           </NavBarButton>
-          <NavBarCartButton onClick={inCart ? handleRemove : handleAddToCart} >
+          <NavBarCartButton onClick={inCart ? handleRemove : handleAddToCart} inCart={inCart} >
             {inCart ? (
                 <>
                   <AddedToShoppingCartIcon width={25} height={25} />

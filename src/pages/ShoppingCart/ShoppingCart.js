@@ -66,10 +66,10 @@ const ShoppingCartNavigation = styled.div`
 
 const ShoppingCartTotal = styled.div`
    background-color: #fff;
-   padding: 12px;
+   padding: 7px;
    color: rgb(0, 158, 127);
    border-radius: 30px;
-   margin-right: 1px;
+   margin-right: 2px;
    font-weight: 600;
 
    ${desktopStyle(`
@@ -206,70 +206,16 @@ const ShoppingCart = () => {
 
     }
 
-    const generateProductIds = () => {
-        const productIds = [];
-        cartItems.forEach(item => {
-           if(item.quantity > 1) {
-               for (let i = 0; i < item.quantity; i++) {
-                   productIds.push(item.id);
-               }
-           }else{
-               productIds.push(item.id);
-           }
-        });
-        return productIds;
-    }
-
-    const generateProductsMeasurements = () => {
-        const productMeasurements = [];
-
-        cartItems.forEach(item => {
-
-            const measurement = item.selectedMeasurement ? item.selectedMeasurement : item?.measurements[0]
-
-            if(!measurement) return;
-
-            if(item.quantity > 1) {
-                for (let i = 0; i < item.quantity; i++) {
-                    productMeasurements.push({
-                        productId: item.id,
-                        measurementId: measurement.id
-                    });
+    const generateOrderProducts = () => {
+        return cartItems.map(item => {
+            return(
+                {
+                    product_id: item.id,
+                    variation_id: item.selectedVariation ? item.selectedVariation.id : item?.variations[0]?.id,
+                    measurement_id: item.selectedMeasurement ? item.selectedMeasurement.id : item?.measurements[0]?.id
                 }
-            }else{
-                productMeasurements.push({
-                    productId: item.id,
-                    measurementId: measurement.id
-                });
-            }
+            );
         });
-        return productMeasurements;
-    }
-
-    const generateProductVariations = () => {
-        const productVariations = [];
-
-        cartItems.forEach(item => {
-
-            const variation = item.selectedVariation ? item.selectedVariation : item?.variations[0]
-
-            if(!variation) return;
-
-            if(item.quantity > 1) {
-                for (let i = 0; i < item.quantity; i++) {
-                    productVariations.push({
-                        productId: item.id,
-                        variationId: variation.id
-                    });
-                }
-            }else{
-                productVariations.push({
-                    productId: item.id,
-                    variationId: variation.id
-                });
-            }
-        });
-        return productVariations;
     }
 
     const handleBillingInformationSubmit = async (billingInformation) => {
@@ -286,9 +232,7 @@ const ShoppingCart = () => {
                 method: 'POST',
                 body: JSON.stringify({
                     ...billingInformation,
-                    productIds: generateProductIds(),
-                    productsMeasurements: generateProductsMeasurements(),
-                    productsVariations: generateProductVariations(),
+                    orderProducts: generateOrderProducts(),
                     delivery_type_id: deliveryTypeId?.id || 0
                 })
             }).then((order) => {
@@ -334,7 +278,7 @@ const ShoppingCart = () => {
                         <ShoppingCartProductList cartItems={cartItems} currency={productCurrency}/>
                 }
                 {
-                    (shop.delivery_types.length && showBillingInformation) &&
+                    (shop.delivery_types?.length && showBillingInformation) &&
                     <DeliveryContainer>
                         <label>
                             Nacin dostave
@@ -346,7 +290,7 @@ const ShoppingCart = () => {
                             className={'deliverySelect'}
                         >
                             {
-                                shop.delivery_types.map((deliveryType) => (
+                                shop.delivery_types?.map((deliveryType) => (
                                         <option key={deliveryType.id} value={deliveryType.id}> {deliveryType.name} </option>
                                     )
                                 )
