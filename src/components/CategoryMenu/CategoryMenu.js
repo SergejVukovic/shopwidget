@@ -4,7 +4,6 @@ import {NavLink} from "react-router-dom";
 import styled from "styled-components";
 
 import {desktopStyle, isDesktop} from "../../utils";
-import RightArrowIcon from "../../assets/icons/react-icons/RightArrowIcon";
 
 const CategoryMenuNav = styled.nav`
     display: flex;
@@ -33,10 +32,13 @@ const CategoryMenuNav = styled.nav`
             position: relative;
             width: auto;
             border-radius: 0;
-            padding: 20px 10px 0 10px;
+            border-bottom-right-radius: 30px;
+            border-top-right-radius: 30px;
+            padding: 20px 10px 20px 10px;
             bottom: 0;
             text-align: left;
             margin-top: 0;
+            font-size: 18px;
         `
     )}
 `;
@@ -188,9 +190,6 @@ const CategoryMenu = () => {
                    <span>
                        Početna
                    </span>
-                  <span>
-                      <RightArrowIcon />
-                  </span>
               </NavigationLink>
               {
                 categories.map(category => {
@@ -204,9 +203,6 @@ const CategoryMenu = () => {
                             <span>
                                   {category.name}
                             </span>
-                            <span>
-                                <RightArrowIcon />
-                            </span>
                         </NavigationLink>
                         )
                 })
@@ -214,9 +210,6 @@ const CategoryMenu = () => {
               <NavigationLink to={`/products/sale/page/1`}>
                   <span>
                        Rasprodaja
-                  </span>
-                  <span>
-                      <RightArrowIcon />
                   </span>
               </NavigationLink>
               {/*<div className={'CategoryMenuSeparator'}>*/}

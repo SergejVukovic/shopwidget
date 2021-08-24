@@ -53,6 +53,16 @@ const MenuButton = styled.div `
     width: 100%;
     padding: 6px;
     cursor: pointer;
+    &:focus-visible {
+      outline: none !important;
+    }
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+
 `;
 
 const CartButton = styled(MenuButton)`

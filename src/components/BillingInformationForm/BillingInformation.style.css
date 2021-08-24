@@ -21,12 +21,18 @@
 }
 
 .BillingInformationForm .item label {
-    margin-left: 16px;
+    margin-left: 15px;
 }
 .BillingInformationForm .item input {
     height: 30px;
     border: 0.1rem solid #c1c1c1;
-    margin-right: 26px;
+    margin-right: 12px;
+    width: 50%;
+    border-radius: 30px;
+}
+
+.BillingInformationForm .item input:focus-visible {
+    outline: none !important;
 }
 
 
@@ -39,6 +45,14 @@
 
     .BillingInformationForm .item {
         border-right: 0.1rem solid #ebebeb;
+    }
+
+    .BillingInformationForm .item input {
+        margin-right: 50%;
+    }
+
+    .BillingInformationForm .item label {
+        margin-left: 15%;
     }
 
 }

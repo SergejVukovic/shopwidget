@@ -9,6 +9,7 @@ const Select = styled.select`
     width: 90%;
     border-radius: 32px;
     padding: 8px;
+    margin: 5px;
     @media (min-width: 992px) {
         width: 40%;
     }

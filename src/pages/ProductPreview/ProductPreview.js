@@ -82,6 +82,13 @@ const NavBarCartButton = styled(NavBarButton)`
   }
 `;
 
+const ProductPreviewFooter = styled.div`
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
+    margin-top: 20px;
+`;
+
 const ProductPreview = () => {
   const history = useHistory();
   const params = useParams();
@@ -99,12 +106,12 @@ const ProductPreview = () => {
 
   const [product, setProduct] = useState(passedProduct || null);
   const [quantity, setQuantity] = useState(inCartProduct?.quantity || 1);
-  const [selectedMeasurement, setSelectedMeasurement] = useState(
-    product?.measurements ? product.measurements[0] : 0
-  );
-  const [selectedVariation, setSelectedVariation] = useState(
-    product?.variations ? product.variations[0] : 0
-  );
+  const [selectedVariation, setSelectedVariation] = useState(() => {
+    if(product?.selected_variation) {
+        return product.selected_variation;
+    }
+    return product?.variations[0] || 0;
+  });
   const [isInCart, setIsInCart] = useState(false);
 
   useEffect(() => {
@@ -113,11 +120,12 @@ const ProductPreview = () => {
       API.shopRequest(`product`, {getParams: {url_name: params.product}}).then(
         (product) => {
           setProduct(product.data[0]);
+          setSelectedVariation(product.data[0]?.variations[0]);
           toast.dismiss();
         }
       );
     }
-  }, [passedProduct, product, setProduct, params]);
+  }, [passedProduct, product, setProduct, setSelectedVariation, params]);
 
   useEffect(() => {
     const hiddenState = document.body.style.overflow;
@@ -145,7 +153,6 @@ const ProductPreview = () => {
     const nextProduct = {
       ...product,
       quantity,
-      selectedMeasurement,
       selectedVariation,
     };
 
@@ -163,6 +170,7 @@ const ProductPreview = () => {
     toast.success('Proizvod dodan u korpu');
   };
   const handleCancel = () => history.push('/');
+
   const handleRemove = () => {
     API.shopEvent({
       name: 'remove_from_cart',
@@ -172,19 +180,9 @@ const ProductPreview = () => {
     dispatch(removeProduct(product));
     toast.success('Proizvod uklonjen iz korpe');
   };
-  const handleMeasurement = (event) => {
-    setSelectedMeasurement(
-      product.measurements.filter(
-        (measurement) => measurement.id === Number(event.target.value)
-      )[0]
-    );
-
-    if (isInCart) {
-      handleAddToCart();
-    }
-  };
 
   const handleVariation = (event) => {
+
     setSelectedVariation(
       product.variations.filter(
         (variation) => variation.id === Number(event.target.value)
@@ -194,6 +192,7 @@ const ProductPreview = () => {
     if (isInCart) {
       handleAddToCart();
     }
+
   };
 
   const inCart = cartItems.filter((item) => item.id === product?.id).length > 0;
@@ -215,50 +214,38 @@ const ProductPreview = () => {
         <Paper className={'ProductPreviewContent'}>
           <div>
             <h1>{product.name}</h1>
-            {product.is_sale ? (
+            {selectedVariation.is_sale ? (
               <>
-                <SalePrice>{`${product.price} ${productCurrency}`}</SalePrice>
-                <h2>{`${product.sale_price} ${productCurrency}`}</h2>
+                <SalePrice>{`${selectedVariation.price} ${productCurrency}`}</SalePrice>
+                <h2>{`${selectedVariation.sale_price} ${productCurrency}`}</h2>
               </>
             ) : (
               <h2 className={'ProductPrice'}>
-                {product.price} {productCurrency}
+                {selectedVariation.price} {productCurrency}
               </h2>
             )}
           </div>
           <div className={'ProductDesc'} dangerouslySetInnerHTML={{
             __html: product.description
           }} />
-          <QuantityControl
-            showLabel={false}
-            quantity={quantity}
-            onChange={handleQuantityChange}
-            min={1}
-          />
-          {product?.measurements?.length > 0 && (
-            <Select
-              value={selectedMeasurement?.id}
-              onChange={handleMeasurement}
-            >
-              {product.measurements.map((measurement) => (
-                <option value={measurement.id} key={measurement.id}>
-                  {measurement.unit}
-                </option>
-              ))}
-            </Select>
-          )}
-          {product?.variations?.length > 0 && (
-            <Select
-              value={selectedVariation?.id}
-              onChange={handleVariation}
-            >
-              {product.variations.map((variation) => (
-                <option value={variation.id} key={variation.id}>
-                  {variation.name}
-                </option>
-              ))}
-            </Select>
-          )}
+        <ProductPreviewFooter>
+            {product?.variations?.length > 0 && (
+                <Select
+                    value={selectedVariation?.id}
+                    onChange={handleVariation}
+                >
+                    {product.variations.map((variation) => (<option value={variation.id} key={variation.id}>{variation.name}
+                    </option>
+                    ))}
+                </Select>
+            )}
+            <QuantityControl
+                showLabel={false}
+                quantity={quantity}
+                onChange={handleQuantityChange}
+                min={1}
+            />
+        </ProductPreviewFooter>
         </Paper>
         <BottomNavBar>
           <NavBarButton onClick={handleCancel}>
