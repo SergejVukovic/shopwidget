@@ -47,12 +47,4 @@
         border-right: 0.1rem solid #ebebeb;
     }
 
-    .BillingInformationForm .item input {
-        margin-right: 50%;
-    }
-
-    .BillingInformationForm .item label {
-        margin-left: 15%;
-    }
-
 }

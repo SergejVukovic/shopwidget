@@ -7,7 +7,12 @@ export const CLEAR = "CLEAR";
 
 export const sumItems = (cartItems) => {
     let itemCount = cartItems.reduce((total, product) => total + product.quantity, 0);
-    let total = cartItems.reduce((total, product) => total + product.price * product.quantity, 0).toFixed(2);
+    let total = cartItems.reduce((total, product) => {
+        const productPrice = product?.selectedVariation ? product.selectedVariation.price : product.variations[0].price;
+        const productSalePrice = product?.selectedVariation ? product.selectedVariation.sale_price : product.variations[0].sale_price;
+        const price = productSalePrice ? productSalePrice : productPrice;
+        return total + price * product.quantity;
+    }, 0).toFixed(2);
     return { itemCount, total }
 }
 

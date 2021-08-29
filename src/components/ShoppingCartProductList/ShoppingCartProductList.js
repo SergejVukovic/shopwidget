@@ -71,15 +71,6 @@ const ShoppingCartProductList = ({cartItems = [], currency}) => {
         );
     }
 
-    const handleMeasurementChange = (event, product) => {
-        dispatch(
-            updateProduct({
-                ...product,
-                selectedMeasurement: product.measurements.filter(measurement => measurement.id === Number(event.target.value))[0]
-            })
-        );
-    }
-
     const handleVariationChange = (event, product) => {
         dispatch(
             updateProduct({
@@ -95,6 +86,8 @@ const ShoppingCartProductList = ({cartItems = [], currency}) => {
         <ShoppingCartProductListContainer>
             {
                 cartItems.map(product => {
+                    const productPrice = product?.selectedVariation ? product.selectedVariation.price : product.variations[0].price;
+                    const productSalePrice = product?.selectedVariation ? product.selectedVariation.sale_price : product.variations[0].sale_price;
                     return (
                         <ShoppingCartProductListItem key={product.id}>
                             <ShoppingCartProductContainer>
@@ -110,19 +103,13 @@ const ShoppingCartProductList = ({cartItems = [], currency}) => {
                                     <img alt={product.name} src={product?.images.filter(image => image.is_main)[0]?.image_url} width={100} height={100} />
                                     <div style={{flex: "0 0 20%"}}>
                                         <p>{product.name}</p>
-                                        <p style={{fontWeight: 600}}>{product.is_sale ? product.sale_price : product.price} {currency}</p>
+                                        <p style={{fontWeight: 600}}>{productSalePrice ? productSalePrice : productPrice} {currency}</p>
                                     </div>
                                     <ShoppingCartProductRemoveButton onClick={() => handleProductRemove(product)}>
                                         X
                                     </ShoppingCartProductRemoveButton>
                                 </ShoppingCartProductHeader>
                                 <ShoppingCartProductFooter>
-                                    {
-                                        product?.measurements?.length > 0 &&
-                                        <Select value={product?.selectedMeasurement?.id} onChange={(event) => handleMeasurementChange(event, product)}>
-                                            {product.measurements.map(measurement => <option value={measurement.id} key={measurement.id}>{measurement.unit}</option>)}
-                                        </Select>
-                                    }
                                     {
                                         product?.variations?.length > 0 &&
                                         <Select value={product?.selectedVariation?.id} onChange={(event) => handleVariationChange(event, product)}>

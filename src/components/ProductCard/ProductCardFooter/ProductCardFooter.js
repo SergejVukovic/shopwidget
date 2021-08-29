@@ -77,12 +77,16 @@ const ProductPriceAndButtonContainer = styled.div`
 
 const ProductCardFooter = ({onAddProductClick, onRemoveProductClick, onTitleClick, inCart, product}) => {
 
-    const {name, price, is_sale, sale_price} = product;
+    const { name, variations } = product;
+
+    const {price, sale_price} =  variations[0] ? variations[0] : {};
     const {currency} = useSelector(state => state.shop)
     const cartItem = useSelector(state => state.cart.cartItems.filter(cartItem => cartItem.id === product.id))
     const dispatch = useDispatch();
-    const productPrice = is_sale ? sale_price : price;
+    const productPrice = sale_price ? sale_price : price;
     const productCurrency = currency || '$';
+
+    console.log(productPrice);
 
     const handleAddToCartClick = () => {
         onAddProductClick && onAddProductClick()
@@ -105,7 +109,7 @@ const ProductCardFooter = ({onAddProductClick, onRemoveProductClick, onTitleClic
             </div>
             <ProductPriceAndButtonContainer>
                 <ProductPrice>
-                    {is_sale && <SalePrice>{price} {productCurrency}</SalePrice>}
+                    {!!sale_price && <SalePrice>{productPrice} {productCurrency}</SalePrice>}
                     {productPrice} {productCurrency}
                 </ProductPrice>
                 {
