@@ -63,7 +63,7 @@ const Products = () => {
     return (
         <>
             <Helmet>
-                <title>{ `${shopName} | ${readableCategory || category}` }</title>
+                <title>{ `${shopName} | ${readableCategory || (category === 'all' ? 'shop' : category)}` }</title>
                 <meta name={"og:title"} content={`${shopName} | ${readableCategory || category}`} />
             </Helmet>
             <Route path={path} component={Menu} />
