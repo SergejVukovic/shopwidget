@@ -227,14 +227,27 @@ const ShoppingCart = () => {
     }
 
     const generateOrderProducts = () => {
-        return cartItems.map(item => {
-            return(
-                {
-                    product_id: item.id,
-                    variation_id: item.selectedVariation ? item.selectedVariation.id : item?.variations[0]?.id,
+        const orderProducts = [];
+        cartItems.forEach(item => {
+            if(item.quantity > 1) {
+                for(let i = 0; i < item.quantity; i++) {
+                    orderProducts.push(
+                        {
+                            product_id: item.id,
+                            variation_id: item.selectedVariation ? item.selectedVariation.id : item?.variations[0]?.id,
+                        }
+                    );
                 }
-            );
+            }else {
+                orderProducts.push(
+                    {
+                        product_id: item.id,
+                        variation_id: item.selectedVariation ? item.selectedVariation.id : item?.variations[0]?.id,
+                    }
+                )
+            }
         });
+      return orderProducts;
     }
 
     const handleBillingInformationSubmit = async (billingInformation) => {
@@ -246,7 +259,6 @@ const ShoppingCart = () => {
 
         const deliveryTypeId = (shop.delivery_types.length > 0) && !selectedDeliveryType?.id ? shop.delivery_types[0] : selectedDeliveryType
 
-        try {
              API.shopRequest('order', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -262,11 +274,14 @@ const ShoppingCart = () => {
                  });
                  dispatch(clearCart());
                  closeShoppingCart({}, true);
-             });
-        }catch (error) {
-            toast.error('Došlo je do greške, molimo pokušajte kasnije.')
-            closeShoppingCart();
-        }
+             }).catch((error) => {
+                 API.shopEvent({
+                     name: 'order_failed',
+                     category: 'order',
+                     additional_data: JSON.stringify(error)
+                 });
+                 toast.error('Došlo je do greške, molimo pokušajte kasnije.')
+             })
 
     };
 

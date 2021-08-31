@@ -169,7 +169,7 @@ const ProductPreview = () => {
     setIsInCart(true);
     toast.success('Proizvod dodan u korpu');
   };
-  const handleCancel = () => history.push('/');
+  const handleCancel = () => history.goBack();
 
   const handleRemove = () => {
     API.shopEvent({
